@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Influencer Recommendation Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        body.analysis-view {
+            background: #0a0a0a;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+        }
+        
+        .filters-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .filters-panel h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .results-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .results-panel h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .recommendation-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .recommendation-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+        
+        .media-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .media-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            cursor: pointer;
+            transition: transform 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .media-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .media-item img,
+        .media-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .media-item .media-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 10px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .media-item:hover .media-overlay {
+            opacity: 1;
+        }
+        
+        .media-item .media-type-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+        
+        .influencer-name {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .match-score {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .influencer-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .detail-item {
+            color: #666;
+            font-size: 14px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            line-height: 1.6;
+        }
+        
+        .detail-item strong {
+            color: #333;
+        }
+        
+        .ai-reasoning {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .ai-reasoning h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group input[type="file"] {
+            padding: 8px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .form-group small {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .form-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+        
+        .form-group label[style*="cursor: pointer"] {
+            padding: 5px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .form-group label[style*="cursor: pointer"]:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .form-group select {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 AI Influencer Recommendation Platform</h1>
+            <p>Powered by AI to find the perfect influencers for your campaign</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="filters-panel">
+                <h2>📋 Client Requirements</h2>
+                <form id="filterForm">
+                    <div class="form-group">
+                        <label for="productType">Product Type</label>
+                        <select id="productType" name="product_type">
+                            <option value="">Any Product Type</option>
+                            <option value="SaaS Tool">SaaS Tool</option>
+                            <option value="Software">Software</option>
+                            <option value="API Platform">API Platform</option>
+                            <option value="Developer Tools">Developer Tools</option>
+                            <option value="Payments/Fintech Platform">Payments/Fintech Platform</option>
+                            <option value="Software Testing Platform">Software Testing Platform</option>
+                            <option value="Customer Support/CRM">Customer Support/CRM</option>
+                            <option value="Marketing Automation">Marketing Automation</option>
+                            <option value="Data Security">Data Security</option>
+                            <option value="Mobile App">Mobile App</option>
+                            <option value="Web App">Web App</option>
+                            <option value="Online Course">Online Course</option>
+                            <option value="Programming Education">Programming Education</option>
+                            <option value="Platform">Platform</option>
+                            <option value="Physical Product">Physical Product</option>
+                            <option value="Service">Service</option>
+                            <option value="E-commerce">E-commerce</option>
+                            <option value="Brand">Brand</option>
+                            <option value="Event">Event</option>
+                            <option value="Book">Book</option>
+                            <option value="Podcast">Podcast</option>
+                            <option value="Video Content">Video Content</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <small style="color: #666; display: block; margin-top: 5px;">💡 Software options match CSV categories: Software Products, Technology Creators, Digital Products</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productImage">Upload Product Image (Optional)</label>
+                        <input type="file" id="productImage" name="product_image" accept="image/*" style="padding: 8px;">
+                        <small style="color: #666; display: block; margin-top: 5px;">Upload an image to help us find better matches</small>
+                        <div id="imagePreview" style="margin-top: 10px; display: none;">
+                            <img id="previewImg" src="" alt="Preview" style="max-width: 200px; max-height: 200px; border-radius: 8px; border: 2px solid #e0e0e0;">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="industry">Industry/Category</label>
+                        <select id="industry" name="industry" required>
+                            <option value="">-- Select Industry (Required) --</option>
+                            <option value="Education">Education</option>
+                            <option value="Software Products">Software Products</option>
+                            <option value="Technology Creators">Technology Creators</option>
+                            <option value="Digital Products">Digital Products</option>
+                            <option value="Travel">Travel</option>
+                            <option value="Food">Food</option>
+                            <option value="Property/Real Estate">Property/Real Estate (10 influencers in CSV)</option>
+                        </select>
+                        <small style="color: #666; display: block; margin-top: 5px;">
+                            <strong>⚠️ Important:</strong> Selecting an industry will show <strong>ONLY</strong> influencers from that industry.<br>
+                            💡 Example: Select "Property" → Shows ONLY Property influencers. Select "Food" → Shows ONLY Food influencers.<br>
+                            📋 Available: Education, Software Products, Technology Creators, Digital Products, Travel, Food, Property/Real Estate
+                        </small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <select id="location" name="location">
+                            <option value="">Any Location</option>
+                            <option value="India">India</option>
+                            <option value="United States">United States</option>
+                            <option value="United Kingdom">United Kingdom</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Germany">Germany</option>
+                            <option value="France">France</option>
+                            <option value="Spain">Spain</option>
+                            <option value="Italy">Italy</option>
+                            <option value="Netherlands">Netherlands</option>
+                            <option value="Sweden">Sweden</option>
+                            <option value="Norway">Norway</option>
+                            <option value="Denmark">Denmark</option>
+                            <option value="Finland">Finland</option>
+                            <option value="Poland">Poland</option>
+                            <option value="Brazil">Brazil</option>
+                            <option value="Mexico">Mexico</option>
+                            <option value="Argentina">Argentina</option>
+                            <option value="Chile">Chile</option>
+                            <option value="Colombia">Colombia</option>
+                            <option value="Japan">Japan</option>
+                            <option value="China">China</option>
+                            <option value="South Korea">South Korea</option>
+                            <option value="Singapore">Singapore</option>
+                            <option value="Malaysia">Malaysia</option>
+                            <option value="Indonesia">Indonesia</option>
+                            <option value="Thailand">Thailand</option>
+                            <option value="Philippines">Philippines</option>
+                            <option value="Vietnam">Vietnam</option>
+                            <option value="United Arab Emirates">United Arab Emirates</option>
+                            <option value="Saudi Arabia">Saudi Arabia</option>
+                            <option value="Israel">Israel</option>
+                            <option value="Turkey">Turkey</option>
+                            <option value="South Africa">South Africa</option>
+                            <option value="Egypt">Egypt</option>
+                            <option value="Nigeria">Nigeria</option>
+                            <option value="Kenya">Kenya</option>
+                            <option value="New Zealand">New Zealand</option>
+                            <option value="Russia">Russia</option>
+                            <option value="Ukraine">Ukraine</option>
+                            <option value="Belgium">Belgium</option>
+                            <option value="Switzerland">Switzerland</option>
+                            <option value="Austria">Austria</option>
+                            <option value="Portugal">Portugal</option>
+                            <option value="Greece">Greece</option>
+                            <option value="Ireland">Ireland</option>
+                            <option value="Czech Republic">Czech Republic</option>
+                            <option value="Romania">Romania</option>
+                            <option value="Hungary">Hungary</option>
+                            <option value="Bangladesh">Bangladesh</option>
+                            <option value="Pakistan">Pakistan</option>
+                            <option value="Sri Lanka">Sri Lanka</option>
+                            <option value="Nepal">Nepal</option>
+                            <option value="Bhutan">Bhutan</option>
+                            <option value="Myanmar">Myanmar</option>
+                            <option value="Cambodia">Cambodia</option>
+                            <option value="Laos">Laos</option>
+                            <option value="Mongolia">Mongolia</option>
+                            <option value="Taiwan">Taiwan</option>
+                            <option value="Hong Kong">Hong Kong</option>
+                            <option value="Macau">Macau</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="minFollowers">Min Followers</label>
+                        <select id="minFollowers" name="min_followers">
+                            <option value="">No Minimum</option>
+                            <option value="1000">1K+ Followers</option>
+                            <option value="5000">5K+ Followers</option>
+                            <option value="10000">10K+ Followers</option>
+                            <option value="25000">25K+ Followers</option>
+                            <option value="50000">50K+ Followers</option>
+                            <option value="100000">100K+ Followers</option>
+                            <option value="250000">250K+ Followers</option>
+                            <option value="500000">500K+ Followers</option>
+                            <option value="1000000">1M+ Followers</option>
+                            <option value="2500000">2.5M+ Followers</option>
+                            <option value="5000000">5M+ Followers</option>
+                            <option value="10000000">10M+ Followers</option>
+                            <option value="50000000">50M+ Followers</option>
+                            <option value="100000000">100M+ Followers</option>
+                        </select>
+                        <small style="color: #666; display: block; margin-top: 5px;">💡 K = Thousands, M = Millions</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contentType">Content Type (Select Multiple)</label>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 8px;">
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Programming Tutorials" style="margin-right: 8px; width: auto;">
+                                Programming Tutorials
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Tech Reviews" style="margin-right: 8px; width: auto;">
+                                Tech Reviews
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Developer Tools" style="margin-right: 8px; width: auto;">
+                                Developer Tools
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Tech News" style="margin-right: 8px; width: auto;">
+                                Tech News
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Educational" style="margin-right: 8px; width: auto;">
+                                Educational
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Tutorials" style="margin-right: 8px; width: auto;">
+                                Tutorials
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Reviews" style="margin-right: 8px; width: auto;">
+                                Reviews
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Vlogs" style="margin-right: 8px; width: auto;">
+                                Vlogs
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Entertainment" style="margin-right: 8px; width: auto;">
+                                Entertainment
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Lifestyle" style="margin-right: 8px; width: auto;">
+                                Lifestyle
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Cooking" style="margin-right: 8px; width: auto;">
+                                Cooking
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Travel" style="margin-right: 8px; width: auto;">
+                                Travel
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Fashion" style="margin-right: 8px; width: auto;">
+                                Fashion
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Gaming" style="margin-right: 8px; width: auto;">
+                                Gaming
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Business" style="margin-right: 8px; width: auto;">
+                                Business
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Finance" style="margin-right: 8px; width: auto;">
+                                Finance
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Health & Fitness" style="margin-right: 8px; width: auto;">
+                                Health & Fitness
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="News" style="margin-right: 8px; width: auto;">
+                                News
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Comedy" style="margin-right: 8px; width: auto;">
+                                Comedy
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Music" style="margin-right: 8px; width: auto;">
+                                Music
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="content_type" value="Sports" style="margin-right: 8px; width: auto;">
+                                Sports
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="targetAudience">Target Audience</label>
+                        <select id="targetAudience" name="target_audience">
+                            <option value="">Any Audience</option>
+                            <option value="Tech Enthusiasts">Tech Enthusiasts</option>
+                            <option value="Developers">Developers</option>
+                            <option value="Entrepreneurs">Entrepreneurs</option>
+                            <option value="Students">Students</option>
+                            <option value="Professionals">Professionals</option>
+                            <option value="Business Owners">Business Owners</option>
+                            <option value="Investors">Investors</option>
+                            <option value="Marketers">Marketers</option>
+                            <option value="Designers">Designers</option>
+                            <option value="Gamers">Gamers</option>
+                            <option value="Travelers">Travelers</option>
+                            <option value="Food Lovers">Food Lovers</option>
+                            <option value="Fitness Enthusiasts">Fitness Enthusiasts</option>
+                            <option value="Fashion Enthusiasts">Fashion Enthusiasts</option>
+                            <option value="Parents">Parents</option>
+                            <option value="Millennials">Millennials</option>
+                            <option value="Gen Z">Gen Z</option>
+                            <option value="Gen X">Gen X</option>
+                            <option value="Baby Boomers">Baby Boomers</option>
+                            <option value="Women">Women</option>
+                            <option value="Men">Men</option>
+                            <option value="Teenagers">Teenagers</option>
+                            <option value="Young Adults">Young Adults</option>
+                            <option value="Seniors">Seniors</option>
+                            <option value="Health Conscious">Health Conscious</option>
+                            <option value="Luxury Consumers">Luxury Consumers</option>
+                            <option value="Budget Conscious">Budget Conscious</option>
+                            <option value="Early Adopters">Early Adopters</option>
+                            <option value="Content Creators">Content Creators</option>
+                            <option value="Small Business Owners">Small Business Owners</option>
+                            <option value="Real Estate Investors">Real Estate Investors</option>
+                            <option value="Property Buyers">Property Buyers</option>
+                            <option value="Homeowners">Homeowners</option>
+                            <option value="Renters">Renters</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="limit">Number of Recommendations</label>
+                        <input type="number" id="limit" name="limit" value="10" min="1" max="20">
+                    </div>
+                    
+                    <button type="submit" class="btn">🔍 Get AI Recommendations</button>
+                </form>
+            </div>
+            
+            <div class="results-panel">
+                <h2>✨ Recommendations</h2>
+                <div id="results">
+                    <div class="loading">
+                        <p>👆 Set your requirements and click "Get AI Recommendations"</p>
+                        <p>💡 Profiles are analyzed with GPT including hashtags and views!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const API_URL = 'http://localhost:5001/api';
+        
+        // Image preview functionality
+        document.getElementById('productImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('imagePreview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                document.getElementById('imagePreview').style.display = 'none';
+            }
+        });
+        
+        document.getElementById('filterForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            
+            // Handle image upload
+            const imageFile = formData.get('product_image');
+            let imageData = null;
+            if (imageFile && imageFile.size > 0) {
+                // Convert image to base64 for sending
+                imageData = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.readAsDataURL(imageFile);
+                });
+            }
+            
+            // Handle multiple content type checkboxes
+            const contentTypes = formData.getAll('content_type');
+            const contentTypeArray = contentTypes.length > 0 ? contentTypes : undefined;
+            
+            // Get min followers value (handle select dropdown)
+            const minFollowersValue = formData.get('min_followers');
+            const minFollowers = minFollowersValue && minFollowersValue !== '' ? parseInt(minFollowersValue) : undefined;
+            
+            const filters = {
+                product_type: formData.get('product_type') || undefined,
+                product_image: imageData, // Base64 encoded image
+                industry: formData.get('industry') || undefined,
+                location: formData.get('location') || undefined,
+                min_followers: minFollowers,
+                content_type: contentTypeArray,
+                target_audience: formData.get('target_audience') || undefined
+            };
+            
+            // Remove undefined values
+            Object.keys(filters).forEach(key => filters[key] === undefined && delete filters[key]);
+            
+            const limit = parseInt(formData.get('limit')) || 10;
+            
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div class="loading">🔄 Analyzing influencers with AI...</div>';
+            
+            try {
+                const response = await fetch(`${API_URL}/recommendations`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ filters, limit })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayRecommendations(data.recommendations);
+                } else {
+                    resultsDiv.innerHTML = `<div class="error">Error: ${data.error}</div>`;
+                }
+            } catch (error) {
+                console.error('API Error:', error);
+                resultsDiv.innerHTML = `<div class="error">
+                    <h3>❌ Connection Error</h3>
+                    <p>Failed to connect to backend server.</p>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                    <p><strong>Solution:</strong> Make sure the backend server is running on http://localhost:5001</p>
+                    <p>Check the terminal or run: <code>cd platform && python3 enhanced_platform.py</code></p>
+                </div>`;
+            }
+        });
+        
+        async function analyzeProfile(influencerId) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div class="loading">🤖 Analyzing profile with GPT...<br>Analyzing hashtags, views, and engagement patterns...</div>';
+            
+            try {
+                const response = await fetch(`${API_URL}/analyze-profile/${encodeURIComponent(influencerId)}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success && data.analysis) {
+                    displayAnalysis(data.analysis);
+                } else {
+                    resultsDiv.innerHTML = `<div class="error">Error: ${data.error || 'Analysis failed'}</div>`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+            }
+        }
+        
+        function displayAnalysis(analysis) {
+            const resultsDiv = document.getElementById('results');
+            const gpt = analysis.gpt_analysis || {};
+            const hashtags = analysis.hashtags_analysis || {};
+            const views = analysis.views_metrics || {};
+            const mediaItems = analysis.media_items || [];
+            
+            // Change body background to dark for analysis view
+            document.body.classList.add('analysis-view');
+            
+            // Get actual content examples
+            const actualContent = gpt.actual_content_examples || [];
+            const samplePosts = gpt.sample_posts || [];
+            const profileSummary = gpt.profile_summary || '';
+            
+            resultsDiv.innerHTML = `
+                <div class="recommendation-card" style="max-width: 100%; background: #1a1a1a; color: #e0e0e0; border: 1px solid #333;">
+                    <h2 style="color: #fff;">🔍 Profile Analysis & Content Examples</h2>
+                    
+                    ${mediaItems.length > 0 ? `
+                    <div style="margin: 20px 0;">
+                        <h3 style="color: #fff; margin-bottom: 15px;">📸 Their Social Media Content</h3>
+                        <div class="media-gallery">
+                            ${mediaItems.map((item, idx) => `
+                                <div class="media-item" onclick="window.open('${item.permalink || item.url}', '_blank')">
+                                    ${item.type === 'VIDEO' ? `
+                                        <video src="${item.url}" muted></video>
+                                    ` : `
+                                        <img src="${item.url}" alt="Content ${idx + 1}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'200\\' height=\\'200\\'%3E%3Crect fill=\\'%23333\\' width=\\'200\\' height=\\'200\\'/%3E%3Ctext fill=\\'%23999\\' font-family=\\'sans-serif\\' font-size=\\'14\\' x=\\'50%25\\' y=\\'50%25\\' text-anchor=\\'middle\\' dominant-baseline=\\'middle\\'%3EImage%3C/text%3E%3C/svg%3E'">
+                                    `}
+                                    <div class="media-type-badge">${item.type === 'VIDEO' ? '▶️ VIDEO' : '📷 IMAGE'}</div>
+                                    <div class="media-overlay">
+                                        <div>❤️ ${item.likes || 0} | 💬 ${item.comments || 0}</div>
+                                        ${item.caption ? `<div style="margin-top: 5px; font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${item.caption}</div>` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <p style="color: #999; font-size: 14px; margin-top: 10px;">Click on any image/video to view on social media</p>
+                    </div>
+                    ` : ''}
+                    
+                    ${profileSummary ? `
+                    <div style="margin: 20px 0; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 8px;">
+                        <h3 style="color: white; margin-bottom: 10px;">📋 Profile Summary</h3>
+                        <p style="font-size: 16px; line-height: 1.6;">${profileSummary}</p>
+                    </div>
+                    ` : ''}
+                    
+                    <div style="margin: 20px 0; padding: 15px; background: #2a2a2a; border-radius: 8px; border: 1px solid #444;">
+                        <h3 style="color: #fff;">📊 Profile Information</h3>
+                        <p style="color: #e0e0e0;"><strong style="color: #fff;">Name:</strong> ${analysis.profile_data?.name || 'N/A'}</p>
+                        <p style="color: #e0e0e0;"><strong style="color: #fff;">Username:</strong> ${analysis.profile_data?.username || 'N/A'}</p>
+                        <p style="color: #e0e0e0;"><strong style="color: #fff;">Platform:</strong> ${analysis.profile_data?.platform || 'N/A'}</p>
+                        <p style="color: #e0e0e0;"><strong style="color: #fff;">Location:</strong> ${analysis.profile_data?.location || 'N/A'}</p>
+                        <p style="color: #e0e0e0;"><strong style="color: #fff;">Followers:</strong> ${views.followers?.toLocaleString() || 'N/A'}</p>
+                    </div>
+                    
+                    ${actualContent.length > 0 ? `
+                    <div style="margin: 20px 0; padding: 15px; background: #2a3a2a; border-radius: 8px; border-left: 4px solid #4caf50;">
+                        <h3 style="color: #fff;">📝 Actual Content They Create</h3>
+                        <ul style="margin-left: 20px; line-height: 1.8; color: #e0e0e0;">
+                            ${actualContent.map(content => `<li>${content}</li>`).join('')}
+                        </ul>
+                    </div>
+                    ` : ''}
+                    
+                    ${samplePosts.length > 0 ? `
+                    <div style="margin: 20px 0; padding: 15px; background: #3a2a1a; border-radius: 8px; border-left: 4px solid #ff9800;">
+                        <h3 style="color: #fff;">📱 Sample Posts (Demo Content Examples)</h3>
+                        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+                            ${samplePosts.map((post, idx) => `
+                                <div style="padding: 12px; background: #1a1a1a; border-radius: 6px; border: 1px solid #444; color: #e0e0e0;">
+                                    <strong style="color: #fff;">Post ${idx + 1}:</strong> ${post}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    <div style="margin: 20px 0; padding: 15px; background: #1a2a3a; border-radius: 8px; border: 1px solid #444;">
+                        <h3 style="color: #fff;">📈 Views & Engagement Metrics</h3>
+                        <p style="color: #e0e0e0;"><strong style="color: #fff;">Estimated Views per Post:</strong> ${views.estimated_views_per_post?.toLocaleString() || 'N/A'}</p>
+                        <p style="color: #e0e0e0;"><strong style="color: #fff;">Views Range:</strong> ${views.views_range || 'N/A'}</p>
+                        <p style="color: #e0e0e0;"><strong style="color: #fff;">Engagement Rate:</strong> ${views.estimated_engagement_rate?.toFixed(2) || 'N/A'}%</p>
+                        <p style="color: #e0e0e0;"><strong style="color: #fff;">Engagement Score:</strong> <span style="color: ${views.engagement_score === 'High' ? '#4caf50' : views.engagement_score === 'Medium' ? '#ff9800' : '#f44336'}">${views.engagement_score || 'N/A'}</span></p>
+                    </div>
+                    
+                    <div style="margin: 20px 0; padding: 15px; background: #2a2a1a; border-radius: 8px; border: 1px solid #444;">
+                        <h3 style="color: #fff;">#️⃣ Hashtag Analysis</h3>
+                        <p style="color: #e0e0e0;"><strong style="color: #fff;">Total Hashtags Found:</strong> ${hashtags.hashtag_count || 0}</p>
+                        <p style="color: #e0e0e0;"><strong style="color: #fff;">Top Hashtags:</strong> ${(hashtags.top_hashtags || []).slice(0, 10).join(', ')}</p>
+                        <div style="margin-top: 10px;">
+                            <strong style="color: #fff;">Hashtag Categories:</strong>
+                            ${Object.entries(hashtags.hashtag_categories || {}).map(([cat, tags]) => 
+                                `<p style="margin-left: 20px; color: #e0e0e0;"><strong style="color: #fff;">${cat}:</strong> ${tags.join(', ')}</p>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0; padding: 15px; background: #1a1a1a; border-radius: 8px; border: 1px solid #444;">
+                        <h3 style="color: #fff;">🤖 AI Analysis</h3>
+                        <p style="color: #e0e0e0;"><strong style="color: #fff;">Overall Score:</strong> <span style="font-size: 24px; color: #667eea;">${gpt.overall_score || 'N/A'}/100</span></p>
+                        
+                        <h4 style="color: #fff;">Content Themes:</h4>
+                        <ul style="line-height: 1.8; color: #e0e0e0;">${(gpt.content_themes || []).map(theme => `<li>${theme}</li>`).join('')}</ul>
+                        
+                        <h4 style="color: #fff;">Audience Insights:</h4>
+                        <ul style="line-height: 1.8; color: #e0e0e0;">${(gpt.audience_insights || []).map(insight => `<li>${insight}</li>`).join('')}</ul>
+                        
+                        <h4 style="color: #fff;">Strengths:</h4>
+                        <ul style="line-height: 1.8; color: #e0e0e0;">${(gpt.strengths || []).map(s => `<li>${s}</li>`).join('')}</ul>
+                        
+                        <h4 style="color: #fff;">Collaboration Recommendations:</h4>
+                        <ul style="line-height: 1.8; color: #e0e0e0;">${(gpt.recommendations || []).map(r => `<li>${r}</li>`).join('')}</ul>
+                    </div>
+                    
+                    <button onclick="document.body.classList.remove('analysis-view'); location.reload()" style="background: #667eea; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 20px;">← Back to Recommendations</button>
+                </div>
+            `;
+        }
+        
+        // Helper function to escape HTML and prevent XSS
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function displayRecommendations(recommendations) {
+            const resultsDiv = document.getElementById('results');
+            
+            if (recommendations.length === 0) {
+                const industryFilter = document.getElementById('industry')?.value || '';
+                let errorMessage = '';
+                
+                if (industryFilter) {
+                    errorMessage = `
+                        <div class="error">
+                            <h3>🔍 No Influencers Found for "${escapeHtml(industryFilter)}"</h3>
+                            <p><strong>Industry Filter Applied:</strong> The system is showing <strong>ONLY</strong> influencers from "${escapeHtml(industryFilter)}" category.</p>
+                            <p>No influencers found in this category. This could mean:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>This industry doesn't have influencers in the CSV file yet</li>
+                                <li>The industry name doesn't match exactly with CSV categories</li>
+                                <li>You may need to add more influencers to this category</li>
+                            </ul>
+                            <p><strong>Available categories in CSV:</strong> Education, Software Products, Technology Creators, Digital Products, Travel, Food, Property/Real Estate</p>
+                            <p style="margin-top: 15px;"><strong>💡 Tip:</strong> Select a different industry from the dropdown to see influencers from that category.</p>
+                        </div>
+                    `;
+                } else {
+                    errorMessage = `
+                        <div class="error">
+                            <h3>🔍 No Influencers Found</h3>
+                            <p><strong>Industry Filter:</strong> "${escapeHtml(industryFilter)}"</p>
+                            <p>The system shows <strong>ONLY</strong> influencers from the selected industry category.</p>
+                            <p><strong>Why no results?</strong></p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>This industry may not have influencers in the CSV file yet</li>
+                                <li>The industry name must match exactly with CSV categories</li>
+                                <li>You may need to add more influencers to this category in the future</li>
+                            </ul>
+                            <p><strong>Available categories:</strong> Education, Software Products, Technology Creators, Digital Products, Travel, Food, Property/Real Estate</p>
+                            <p style="margin-top: 15px;"><strong>💡 Tip:</strong> Select a different industry from the dropdown to see influencers from that category.</p>
+                        </div>
+                    `;
+                }
+                
+                resultsDiv.innerHTML = errorMessage;
+                return;
+            }
+            
+            // Show filter summary
+            const industryFilter = document.getElementById('industry')?.value || '';
+            let filterSummary = '';
+            if (industryFilter) {
+                // Special message for Property/Real Estate
+                if (industryFilter.includes('Property') || industryFilter.includes('Real Estate')) {
+                    filterSummary = `<div style="background: #e8f5e9; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #4caf50;">
+                        <strong style="color: #2e7d32;">✅ Property/Real Estate Filter Applied</strong><br>
+                        <span style="color: #388e3c;">Found: ${recommendations.length} Property/Real Estate influencer${recommendations.length !== 1 ? 's' : ''} from your CSV file</span><br>
+                        <small style="color: #666; margin-top: 5px; display: block;">These are the property influencers from Indian_Influencers_Master_List.csv</small>
+                    </div>`;
+                } else {
+                    filterSummary = `<div style="background: #e3f2fd; padding: 10px; border-radius: 8px; margin-bottom: 15px; color: #1976d2;">
+                        <strong>📋 Filter Applied:</strong> Industry/Category = "${escapeHtml(industryFilter)}" | 
+                        <strong>Found:</strong> ${recommendations.length} influencer${recommendations.length !== 1 ? 's' : ''}
+                    </div>`;
+                }
+            }
+            
+            resultsDiv.innerHTML = filterSummary + recommendations.map((inf, index) => `
+                <div class="recommendation-card">
+                    <div class="card-header">
+                        <div class="influencer-name">${escapeHtml(inf.full_name || inf.email || 'Unknown')}</div>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <div class="match-score">${inf.match_score || 0}% Match</div>
+                            <button class="analyze-btn" onclick="analyzeProfile('${escapeHtml(inf.email || inf.id || index)}')" style="background: #667eea; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 12px;">🔍 Analyze with GPT</button>
+                        </div>
+                    </div>
+                    
+                    <div class="influencer-details">
+                        <div class="detail-item"><strong>Category/Industry:</strong> ${escapeHtml(inf.industry || inf.category || 'N/A')}</div>
+                        <div class="detail-item"><strong>Domain/Niche:</strong> ${escapeHtml(inf.domain_niche || inf.job_title || 'N/A')}</div>
+                        <div class="detail-item"><strong>Location:</strong> ${escapeHtml(inf.location || 'India')}</div>
+                        <div class="detail-item"><strong>Email:</strong> ${inf.email ? `<a href="mailto:${escapeHtml(inf.email)}">${escapeHtml(inf.email)}</a>` : 'N/A'}</div>
+                    </div>
+                    
+                    ${inf.contact_type ? `<div class="detail-item"><strong>Contact Type:</strong> ${escapeHtml(inf.contact_type)}</div>` : ''}
+                    ${inf.contact_link ? `<div class="detail-item"><strong>Contact Link:</strong> <a href="${escapeHtml(inf.contact_link)}" target="_blank">${escapeHtml(inf.contact_link)}</a></div>` : ''}
+                    ${inf.use_case ? `<div class="detail-item"><strong>Use Case:</strong> ${escapeHtml(inf.use_case)}</div>` : ''}
+                    ${inf.source_url ? `<div class="detail-item"><strong>Source:</strong> <a href="${escapeHtml(inf.source_url)}" target="_blank">View Source</a></div>` : ''}
+                    
+                    ${inf.linkedin_handle ? `<div class="detail-item"><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/${inf.linkedin_handle}" target="_blank">${inf.linkedin_handle}</a></div>` : ''}
+                    ${inf.twitter_handle ? `<div class="detail-item"><strong>Twitter:</strong> <a href="https://twitter.com/${inf.twitter_handle}" target="_blank">@${inf.twitter_handle}</a></div>` : ''}
+                    
+                    ${inf.ai_reasoning ? `
+                        <div class="ai-reasoning">
+                            <h4>🤖 AI Analysis</h4>
+                            <p>${inf.ai_reasoning}</p>
+                            ${inf.key_strengths ? `<p><strong>Strengths:</strong> ${Array.isArray(inf.key_strengths) ? inf.key_strengths.join(', ') : inf.key_strengths}</p>` : ''}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
+

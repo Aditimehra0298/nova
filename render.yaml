@@ -2,7 +2,7 @@ services:
   - type: web
     name: nova-influencer-platform
     env: python
-    buildCommand: pip install -r platform/requirements.txt
+    buildCommand: pip install -r requirements.txt
     startCommand: cd platform && python simple_server.py
     envVars:
       - key: PORT

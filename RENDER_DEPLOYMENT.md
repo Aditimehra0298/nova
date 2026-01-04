@@ -35,8 +35,12 @@ Make sure your code is in a Git repository (GitHub, GitLab, or Bitbucket).
 - **Branch**: `main` (or your default branch)
 
 **Build & Deploy:**
-- **Build Command**: `pip install -r platform/requirements.txt`
+- **Build Command**: `pip install -r requirements.txt`
+  - (The root requirements.txt now includes all Flask and platform dependencies)
 - **Start Command**: `cd platform && python simple_server.py`
+  
+**Alternative Build Command** (if you prefer to use platform/requirements.txt):
+- **Build Command**: `pip install -r platform/requirements.txt`
 
 **OR** if you're using the `render.yaml` file:
 - Render will automatically detect and use `render.yaml` settings

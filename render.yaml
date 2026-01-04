@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: nova-influencer-platform
+    env: python
+    buildCommand: pip install -r platform/requirements.txt
+    startCommand: cd platform && python simple_server.py
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: FLASK_DEBUG
+        value: false
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      # Add your environment variables here or in Render dashboard:
+      # - key: OPENAI_API_KEY
+      #   sync: false  # Set this in Render dashboard
+      # - key: HUNTER_API_KEY
+      #   sync: false
+      # - key: GOOGLE_CREDENTIALS_FILE
+      #   sync: false
+      # - key: GOOGLE_SHEET_NAME
+      #   value: Influencer Data
+

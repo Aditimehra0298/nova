@@ -1,0 +1,9 @@
+# Example emails file
+# Add one email address per line
+# Lines starting with # are ignored
+
+# influencer1@example.com
+# influencer2@example.com
+# influencer3@example.com
+
+

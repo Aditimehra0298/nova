@@ -27,7 +27,7 @@ def health_check():
     """Health check endpoint"""
     return jsonify({
         "status": "healthy",
-        "message": "AI Influencer Platform API",
+        "message": "NOVA Influencer Platform API",
         "version": "2.0"
     })
 
@@ -372,7 +372,7 @@ if __name__ == '__main__':
     port = int(os.getenv('PORT', 5001))
     debug_mode = os.getenv('FLASK_DEBUG', 'False').lower() == 'true'
     print(f"\n{'='*70}")
-    print("🚀 AI Influencer Platform Server")
+    print("✨ NOVA Influencer Platform Server")
     print(f"{'='*70}")
     print(f"✅ Server starting on http://0.0.0.0:{port}")
     print(f"🔧 Debug mode: {debug_mode}")

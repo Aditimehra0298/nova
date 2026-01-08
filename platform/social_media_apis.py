@@ -17,12 +17,29 @@ class SocialMediaAPIs:
         self.instagram_token = os.getenv('INSTAGRAM_ACCESS_TOKEN')
         self.twitter_bearer = os.getenv('TWITTER_BEARER_TOKEN')
         self.linkedin_token = os.getenv('LINKEDIN_ACCESS_TOKEN')
+        self.linkedin_client_id = os.getenv('LINKEDIN_CLIENT_ID')
+        self.linkedin_client_secret = os.getenv('LINKEDIN_CLIENT_SECRET')
         self.facebook_token = os.getenv('FACEBOOK_ACCESS_TOKEN')
     
     def analyze_instagram_profile(self, username: str) -> Dict:
         """Analyze Instagram profile using Instagram Graph API"""
         try:
-            # Instagram Graph API endpoint
+            if not self.instagram_token:
+                return {"success": False, "error": "Instagram token not configured"}
+            
+            # Remove @ if present and clean username
+            username = username.lstrip('@').strip()
+            if not username:
+                return {"success": False, "error": "Instagram username is required"}
+            
+            print(f"🔍 Fetching Instagram profile for: {username}")
+            
+            # Instagram Graph API - Try to get user by username
+            # Note: Instagram Graph API requires the username to be associated with a Business/Creator account
+            # First, try to get user ID from username using Instagram Basic Display API or Graph API
+            
+            # Method 1: Try Instagram Graph API with username
+            # This works if the token has permissions to access the user
             url = f"https://graph.instagram.com/{username}"
             params = {
                 'fields': 'id,username,account_type,media_count,followers_count,follows_count',
@@ -30,6 +47,24 @@ class SocialMediaAPIs:
             }
             
             response = requests.get(url, params=params, timeout=10)
+            
+            # If that fails, try alternative methods
+            if response.status_code != 200:
+                error_data = response.json() if response.text else {}
+                error_msg = error_data.get('error', {}).get('message', 'Unknown error')
+                print(f"⚠️  Instagram API Error for {username}: {error_msg}")
+                
+                # Try alternative: Use Instagram Basic Display API endpoint
+                # This might work if the token is a user access token
+                alt_url = f"https://graph.instagram.com/me"
+                alt_params = {'fields': 'id,username', 'access_token': self.instagram_token}
+                alt_response = requests.get(alt_url, params=alt_params, timeout=10)
+                
+                if alt_response.status_code == 200:
+                    # Token is valid but can't access other users - return partial data
+                    return {"success": False, "error": f"Cannot access user {username}. Token may only have access to own account."}
+                else:
+                    return {"success": False, "error": f"Instagram API Error: {error_msg}. Username '{username}' may not exist or token lacks permissions."}
             
             if response.status_code == 200:
                 profile_data = response.json()

@@ -68,6 +68,18 @@ class ProfileAnalyzer:
         if not influencer:
             return {"error": "Influencer not found"}
         
+        return self.analyze_profile_with_gpt_data(influencer)
+    
+    def analyze_profile_with_gpt_data(self, influencer: Dict) -> Dict:
+        """
+        Analyze influencer profile data directly (without needing to look up by ID)
+        
+        Args:
+            influencer: Influencer dictionary with profile data
+        
+        Returns:
+            Analysis dictionary
+        """
         # Fetch real data from social media APIs
         api_data = self.social_apis.analyze_all_platforms(influencer)
         

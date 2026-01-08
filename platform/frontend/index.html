@@ -123,6 +123,10 @@
             padding: 30px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.2);
+            /* CRITICAL: Always keep form visible - never hide it */
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
         
         .filters-panel h2 {
@@ -271,6 +275,148 @@
             border-color: #00d4ff;
             box-shadow: 0 12px 40px rgba(0, 212, 255, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1);
             transform: translateY(-4px);
+        }
+        
+        /* Node/Graph View Styles */
+        .influencer-nodes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .influencer-node {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: visible;
+        }
+        
+        .influencer-node:hover {
+            border-color: #00d4ff;
+            box-shadow: 0 8px 24px rgba(0, 212, 255, 0.25);
+            transform: translateY(-4px);
+        }
+        
+        .node-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .node-name {
+            font-weight: 700;
+            font-size: 1.1em;
+            color: #1a1a3e;
+            flex: 1;
+        }
+        
+        .node-match-score {
+            background: linear-gradient(135deg, #00d4ff 0%, #5b9fff 100%);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9em;
+            box-shadow: 0 2px 8px rgba(0, 212, 255, 0.3);
+        }
+        
+        .node-tier-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .node-engagement {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+        }
+        
+        .engagement-metric {
+            text-align: center;
+        }
+        
+        .metric-label {
+            font-size: 0.75em;
+            color: #666;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .metric-value {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #1a1a3e;
+        }
+        
+        .node-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 12px 0;
+            font-size: 0.85em;
+        }
+        
+        .node-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #555;
+        }
+        
+        .detail-icon {
+            font-size: 1.1em;
+        }
+        
+        .node-platforms {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 12px 0;
+        }
+        
+        .platform-tag {
+            background: rgba(0, 212, 255, 0.1);
+            color: #00d4ff;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+        
+        .node-analyze-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #00d4ff 0%, #5b9fff 100%);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+        }
+        
+        .node-analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 212, 255, 0.4);
         }
         
         .media-gallery {
@@ -653,6 +799,33 @@
                     </div>
                     
                     <div class="form-group">
+                        <label for="platforms">Social Media Platforms (Select Platforms You Want Influencers From)</label>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 12px; padding: 8px; border-radius: 10px; background: #f8fafc;">
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="platforms" value="Instagram" style="margin-right: 8px; width: auto;">
+                                📷 Instagram
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="platforms" value="Twitter" style="margin-right: 8px; width: auto;">
+                                🐦 Twitter/X
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="platforms" value="LinkedIn" style="margin-right: 8px; width: auto;">
+                                💼 LinkedIn
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="platforms" value="YouTube" style="margin-right: 8px; width: auto;">
+                                ▶️ YouTube
+                            </label>
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+                                <input type="checkbox" name="platforms" value="Facebook" style="margin-right: 8px; width: auto;">
+                                👥 Facebook
+                            </label>
+                        </div>
+                        <small style="color: #666; display: block; margin-top: 5px;">💡 Select one or more platforms. Only influencers active on selected platforms will be shown.</small>
+                    </div>
+                    
+                    <div class="form-group">
                         <label for="minFollowers">Min Followers</label>
                         <select id="minFollowers" name="min_followers">
                             <option value="">No Minimum</option>
@@ -807,7 +980,7 @@
                     
                     <div class="form-group">
                         <label for="limit">Number of Recommendations</label>
-                        <input type="number" id="limit" name="limit" value="10" min="1" max="20">
+                        <input type="number" id="limit" name="limit" value="5" min="1" max="20">
                     </div>
                     
                     <button type="submit" class="btn">🚀 Get NOVA Recommendations</button>
@@ -830,6 +1003,64 @@
         // Auto-detect API URL based on current host (works for both local and production)
         const API_URL = window.location.origin + '/api';
         
+        // Initialize - stop any existing loading on page load
+        window.currentLoadingInterval = null;
+        window.currentAbortController = null;
+        
+        // Function to stop loading and cancel request
+        function stopLoading() {
+            console.log('stopLoading called');
+            // Clear loading interval
+            if (window.currentLoadingInterval) {
+                clearInterval(window.currentLoadingInterval);
+                window.currentLoadingInterval = null;
+                console.log('Loading interval cleared');
+            }
+            
+            // Abort fetch request
+            if (window.currentAbortController) {
+                window.currentAbortController.abort();
+                window.currentAbortController = null;
+                console.log('Request aborted');
+            }
+            
+            // Show stopped message
+            const resultsDiv = document.getElementById('results');
+            if (resultsDiv) {
+                resultsDiv.innerHTML = `<div class="error" style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; border-radius: 8px;">
+                    <h3>⏹️ Loading Stopped</h3>
+                    <p>The request has been cancelled. You can adjust your requirements and try again.</p>
+                    <p style="margin-top: 10px; font-weight: 600;"><strong>📋 Your requirements form is still visible above!</strong></p>
+                </div>`;
+            }
+        }
+        
+        // Make stopLoading globally accessible
+        window.stopLoading = stopLoading;
+        
+        // Stop any loading when page loads or becomes visible
+        window.addEventListener('load', function() {
+            if (window.currentLoadingInterval) {
+                clearInterval(window.currentLoadingInterval);
+                window.currentLoadingInterval = null;
+            }
+            // Clear any stuck loading display
+            const resultsDiv = document.getElementById('results');
+            if (resultsDiv && resultsDiv.innerHTML.includes('Analyzing influencers')) {
+                resultsDiv.innerHTML = `<div style="padding: 20px; text-align: center; color: #666;">
+                    <p>Ready to search for influencers. Fill in your requirements above and click "Get NOVA Recommendation".</p>
+                </div>`;
+            }
+        });
+        
+        // Also stop on page visibility change (user switches tabs)
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden && window.currentLoadingInterval) {
+                // Optionally stop when tab is hidden
+                // clearInterval(window.currentLoadingInterval);
+            }
+        });
+        
         // Image preview functionality
         document.getElementById('productImage').addEventListener('change', function(e) {
             const file = e.target.files[0];
@@ -847,6 +1078,9 @@
         
         document.getElementById('filterForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('Form submitted');
             
             const formData = new FormData(e.target);
             
@@ -870,11 +1104,16 @@
             const minFollowersValue = formData.get('min_followers');
             const minFollowers = minFollowersValue && minFollowersValue !== '' ? parseInt(minFollowersValue) : undefined;
             
+            // Get selected platforms
+            const platformCheckboxes = formData.getAll('platforms');
+            const platforms = platformCheckboxes.length > 0 ? platformCheckboxes : undefined;
+            
             const filters = {
                 product_type: formData.get('product_type') || undefined,
                 product_image: imageData, // Base64 encoded image
                 industry: formData.get('industry') || undefined,
                 location: formData.get('location') || undefined,
+                platforms: platforms, // Selected platforms
                 min_followers: minFollowers,
                 content_type: contentTypeArray,
                 target_audience: formData.get('target_audience') || undefined
@@ -886,69 +1125,466 @@
             const limit = parseInt(formData.get('limit')) || 10;
             
             const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = '<div class="loading">✨ Analyzing influencers with NOVA...</div>';
+            const filterForm = document.getElementById('filterForm');
+            const filtersPanel = filterForm.closest('.filters-panel');
+            
+            // CRITICAL: Keep form visible and never remove it until recommendations are found
+            // Ensure form is always visible
+            if (filterForm) {
+                filterForm.style.display = 'block';
+                filterForm.style.visibility = 'visible';
+                filterForm.style.opacity = '1';
+                filterForm.style.pointerEvents = 'auto';
+            }
+            if (filtersPanel) {
+                filtersPanel.style.display = 'block';
+                filtersPanel.style.visibility = 'visible';
+                filtersPanel.style.opacity = '1';
+            }
+            
+            // Clear any existing loading first
+            if (window.currentLoadingInterval) {
+                clearInterval(window.currentLoadingInterval);
+                window.currentLoadingInterval = null;
+            }
+            
+            // Show loading state - SIMPLE, NO CONSTANT RELOADING
+            resultsDiv.innerHTML = `<div class="loading">
+                <div style="text-align: center; padding: 40px 20px;">
+                    <div style="width: 50px; height: 50px; border: 4px solid #e0e0e0; border-top: 4px solid #00d4ff; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+                    <h3 style="color: #1a1a3e; margin-bottom: 10px;">🤖 ChatGPT is finding influencers...</h3>
+                    <p style="color: #666; margin-bottom: 5px; font-weight: 600;">Analyzing your requirements and searching for matching influencers</p>
+                    <p style="color: #999; font-size: 0.9em; margin-top: 10px;">This may take 30-60 seconds. Please wait...</p>
+                    <p style="color: #999; font-size: 0.85em; margin-top: 10px;">📋 Your requirements are still visible above</p>
+                    <button onclick="window.stopLoading()" style="margin-top: 20px; padding: 12px 24px; background: #ff4444; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 16px; box-shadow: 0 4px 12px rgba(255, 68, 68, 0.3);">⏹️ Stop Loading</button>
+                </div>
+            </div>`;
+            
+            // Add CSS animation for spinner
+            if (!document.getElementById('loading-spinner-style')) {
+                const style = document.createElement('style');
+                style.id = 'loading-spinner-style';
+                style.textContent = '@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }';
+                document.head.appendChild(style);
+            }
+            
+            // NO INTERVAL - Static loading message, no reloading
+            window.currentLoadingInterval = null;
+            window.currentAbortController = null; // Will be set below
+            
+            // Scroll to results smoothly
+            setTimeout(() => {
+                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
             
             try {
+                // Add timeout to prevent infinite loading
+                const controller = new AbortController();
+                window.currentAbortController = controller; // Store for cancel button
+                const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 minute timeout
+                
+                console.log('Fetching recommendations...');
                 const response = await fetch(`${API_URL}/recommendations`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ filters, limit })
+                    body: JSON.stringify({ filters, limit }),
+                    signal: controller.signal
                 });
                 
+                clearTimeout(timeoutId);
+                
+                // Clear loading animation immediately - NO MORE RELOADING
+                if (window.currentLoadingInterval) {
+                    clearInterval(window.currentLoadingInterval);
+                    window.currentLoadingInterval = null;
+                }
+                // Also clear any loading display
+                resultsDiv.innerHTML = ''; // Clear loading immediately
+                
+                console.log('Response received, status:', response.status);
+                
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                }
+                
                 const data = await response.json();
+                console.log('Data parsed, success:', data.success);
+                console.log('API Response:', data);
+                console.log('Recommendations count:', data.recommendations ? data.recommendations.length : 0);
+                
+                // Check if we got an error response (even with 200 status)
+                if (!data.success && data.error) {
+                    resultsDiv.innerHTML = `
+                        <div class="error" style="background: #fee; border-left: 4px solid #f44; padding: 20px; border-radius: 8px;">
+                            <h3>⚠️ ${escapeHtml(data.error)}</h3>
+                            ${data.suggestion ? `<p style="margin-top: 10px; color: #666;">💡 ${escapeHtml(data.suggestion)}</p>` : ''}
+                            <p style="margin-top: 15px; font-weight: 600; color: #d97706;"><strong>📋 Your requirements form is still visible above - adjust and try again!</strong></p>
+                        </div>
+                    `;
+                    return;
+                }
                 
                 if (data.success) {
-                    displayRecommendations(data.recommendations);
+                    // Store recommendations for profile viewing
+                    currentRecommendations = data.recommendations || [];
+                    console.log('Stored recommendations:', currentRecommendations.length);
+                    
+                    // CRITICAL: Keep form visible - NEVER remove it
+                    if (filterForm) {
+                        filterForm.style.display = 'block';
+                        filterForm.style.visibility = 'visible';
+                        filterForm.style.opacity = '1';
+                        filterForm.style.pointerEvents = 'auto';
+                    }
+                    if (filtersPanel) {
+                        filtersPanel.style.display = 'block';
+                        filtersPanel.style.visibility = 'visible';
+                        filtersPanel.style.opacity = '1';
+                    }
+                    
+                    // Check if we have recommendations
+                    if (!data.recommendations || data.recommendations.length === 0) {
+                        console.log('No recommendations found - showing error message');
+                        resultsDiv.innerHTML = `
+                            <div class="error" style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; border-radius: 8px;">
+                                <h3>⚠️ No Influencers Found</h3>
+                                <p>No influencers match your current requirements. Try:</p>
+                                <ul style="text-align: left; display: inline-block; margin-top: 10px;">
+                                    <li>Changing the industry filter</li>
+                                    <li>Removing some filters to get more results</li>
+                                    <li>Selecting different platforms</li>
+                                </ul>
+                                <p style="margin-top: 15px; font-weight: 600; color: #d97706;"><strong>📋 Your requirements form is still visible above - adjust and try again!</strong></p>
+                            </div>
+                        `;
+                    } else {
+                        console.log('✅ SUCCESS: Calling displayRecommendations with', data.recommendations.length, 'recommendations');
+                        console.log('Recommendations data:', JSON.stringify(data.recommendations.slice(0, 1), null, 2));
+                        
+                        // Clear loading animation BEFORE displaying results
+                        if (window.currentLoadingInterval) {
+                            clearInterval(window.currentLoadingInterval);
+                            window.currentLoadingInterval = null;
+                        }
+                        
+                        // Ensure resultsDiv exists
+                        if (!resultsDiv) {
+                            console.error('❌ ERROR: resultsDiv not found!');
+                            alert('Error: Results container not found. Please refresh the page.');
+                            return;
+                        }
+                        
+                        // Try to display recommendations
+                        try {
+                            displayRecommendations(data.recommendations, data.tiered_influencers, data.tier_counts);
+                        } catch (error) {
+                            console.error('❌ ERROR in displayRecommendations:', error);
+                            // Fallback: show simple list
+                            let simpleHTML = `<div style="padding: 20px;">
+                                <h2 style="color: #1a1a3e; margin-bottom: 20px;">✨ Found ${data.recommendations.length} Influencers</h2>
+                                <div style="display: grid; gap: 15px;">`;
+                            data.recommendations.forEach((inf, idx) => {
+                                simpleHTML += `
+                                    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px;">
+                                        <h3 style="color: #1a1a3e; margin: 0 0 10px 0;">${escapeHtml(inf.full_name || 'Unknown')}</h3>
+                                        <p style="color: #666; margin: 5px 0;"><strong>Industry:</strong> ${escapeHtml(inf.industry || 'N/A')}</p>
+                                        <p style="color: #666; margin: 5px 0;"><strong>Followers:</strong> ${escapeHtml(inf.followers || 'N/A')}</p>
+                                        <p style="color: #666; margin: 5px 0;"><strong>Match Score:</strong> ${inf.match_score || 0}%</p>
+                                        <button onclick="showOriginalProfileFromIndex(${idx})" style="background: #00d4ff; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-top: 10px;">View Profile</button>
+                                    </div>
+                                `;
+                            });
+                            simpleHTML += '</div></div>';
+                            resultsDiv.innerHTML = simpleHTML;
+                        }
+                    }
                 } else {
-                    resultsDiv.innerHTML = `<div class="error">Error: ${data.error}</div>`;
+                    // Clear loading animation on error
+                    if (window.currentLoadingInterval) {
+                        clearInterval(window.currentLoadingInterval);
+                        window.currentLoadingInterval = null;
+                    }
+                    resultsDiv.innerHTML = `<div class="error">
+                        <h3>❌ Error</h3>
+                        <p>${data.error || 'Unknown error occurred'}</p>
+                        <p style="margin-top: 10px; font-weight: 600;"><strong>📋 Your requirements form is still visible above - you can try again!</strong></p>
+                    </div>`;
+                    // CRITICAL: Keep form visible on error
+                    if (filterForm) {
+                        filterForm.style.display = 'block';
+                        filterForm.style.visibility = 'visible';
+                        filterForm.style.opacity = '1';
+                        filterForm.style.pointerEvents = 'auto';
+                    }
+                    if (filtersPanel) {
+                        filtersPanel.style.display = 'block';
+                        filtersPanel.style.visibility = 'visible';
+                        filtersPanel.style.opacity = '1';
+                    }
                 }
             } catch (error) {
+                // Clear loading animation
+                if (window.currentLoadingInterval) {
+                    clearInterval(window.currentLoadingInterval);
+                    window.currentLoadingInterval = null;
+                }
+                
                 console.error('API Error:', error);
-                resultsDiv.innerHTML = `<div class="error">
-                    <h3>❌ Connection Error</h3>
-                    <p>Failed to connect to backend server.</p>
-                    <p><strong>Error:</strong> ${error.message}</p>
-                    <p><strong>Solution:</strong> Make sure the backend server is running on http://localhost:5001</p>
-                    <p>Check the terminal or run: <code>cd platform && python3 enhanced_platform.py</code></p>
+                let errorMessage = error.message;
+                
+                if (error.name === 'AbortError') {
+                    errorMessage = 'Request timed out after 2 minutes. ChatGPT API is taking too long. Please try again with fewer filters or a smaller limit (e.g., 5 instead of 10).';
+                } else if (errorMessage && errorMessage.includes('Failed to fetch')) {
+                    errorMessage = 'Cannot connect to server. Please make sure the server is running and ChatGPT API is configured.';
+                }
+                
+                resultsDiv.innerHTML = `<div class="error" style="background: #fee; border-left: 4px solid #f44; padding: 20px; border-radius: 8px;">
+                    <h3>❌ Error</h3>
+                    <p><strong>Error:</strong> ${escapeHtml(errorMessage)}</p>
+                    <p style="margin-top: 15px; color: #666;"><strong>💡 Solutions:</strong></p>
+                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
+                        <li>Check if ChatGPT API key is configured (OPENAI_API_KEY in .env file)</li>
+                        <li>Try reducing the number of filters</li>
+                        <li>Try a smaller limit (e.g., 5 instead of 10)</li>
+                        <li>Remove platform filters if not essential</li>
+                        <li>Remove product type, content type, or target audience filters</li>
+                        <li>Wait a moment and try again</li>
+                        <li>Check browser console (F12) for more details</li>
+                    </ul>
+                    <p style="margin-top: 15px; font-weight: 600;"><strong>📋 Your requirements form is still visible above - adjust and try again!</strong></p>
                 </div>`;
+                
+                // CRITICAL: Keep form visible on error - NEVER remove it
+                if (filterForm) {
+                    filterForm.style.display = 'block';
+                    filterForm.style.visibility = 'visible';
+                    filterForm.style.opacity = '1';
+                    filterForm.style.pointerEvents = 'auto';
+                }
+                if (filtersPanel) {
+                    filtersPanel.style.display = 'block';
+                    filtersPanel.style.visibility = 'visible';
+                    filtersPanel.style.opacity = '1';
+                }
             }
         });
         
-        async function analyzeProfile(influencerId) {
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = '<div class="loading">✨ Analyzing profile with NOVA...<br>Analyzing hashtags, views, and engagement patterns...</div>';
-            
-            try {
-                const response = await fetch(`${API_URL}/analyze-profile/${encodeURIComponent(influencerId)}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                
-                const data = await response.json();
-                
-                if (data.success && data.analysis) {
-                    displayAnalysis(data.analysis);
-                } else {
-                    resultsDiv.innerHTML = `<div class="error">Error: ${data.error || 'Analysis failed'}</div>`;
-                }
-            } catch (error) {
-                resultsDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+        // Store current recommendations to access full profile data
+        let currentRecommendations = [];
+        
+        function showOriginalProfileFromIndex(index) {
+            if (currentRecommendations && currentRecommendations[index]) {
+                showOriginalProfile(currentRecommendations[index]);
             }
         }
         
+        function showOriginalProfile(influencerData) {
+            const resultsDiv = document.getElementById('results');
+            const filterForm = document.getElementById('filterForm');
+            
+            // Keep form visible
+            filterForm.style.opacity = '1';
+            filterForm.style.pointerEvents = 'auto';
+            
+            // Build original profile display
+            let profileHTML = `
+                <div style="margin-bottom: 20px;">
+                    <button onclick="displayRecommendations(currentRecommendations, null, null)" style="background: #667eea; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-bottom: 20px;">
+                        ← Back to All Influencers
+                    </button>
+                </div>
+                <div class="recommendation-card" style="max-width: 100%;">
+                    <h2 style="color: #1a1a3e; margin-bottom: 20px;">👤 Original Profile: ${escapeHtml(influencerData.full_name || 'Unknown')}</h2>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                        <div style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e5e7eb;">
+                            <h3 style="color: #1a1a3e; margin-bottom: 15px;">📊 Basic Information</h3>
+                            <div class="detail-item"><strong>Name:</strong> ${escapeHtml(influencerData.full_name || 'N/A')}</div>
+                            <div class="detail-item"><strong>Email:</strong> ${influencerData.email && !influencerData.email.includes('example.com') ? `<a href="mailto:${escapeHtml(influencerData.email)}" style="color: #00d4ff; text-decoration: underline;">${escapeHtml(influencerData.email)}</a>` : influencerData.email ? `<span style="color: #ff9800;">${escapeHtml(influencerData.email)} (Verify)</span>` : '<span style="color: #999;">N/A</span>'}</div>
+                            <div class="detail-item"><strong>Location:</strong> ${escapeHtml(influencerData.location || 'N/A')}</div>
+                            <div class="detail-item"><strong>Industry:</strong> ${escapeHtml(influencerData.industry || influencerData.category || 'N/A')}</div>
+                            <div class="detail-item"><strong>Domain/Niche:</strong> ${escapeHtml(influencerData.domain_niche || influencerData.job_title || 'N/A')}</div>
+                            <div class="detail-item"><strong>Followers:</strong> <span style="color: #00d4ff; font-weight: 600;">${escapeHtml(influencerData.followers || 'N/A')}</span></div>
+                        </div>
+                        
+                        <div style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e5e7eb;">
+                            <h3 style="color: #1a1a3e; margin-bottom: 15px;">🔗 Social Media Handles & Contact</h3>
+                            ${influencerData.instagram_handle ? `<div class="detail-item"><strong>📷 Instagram:</strong> <a href="https://instagram.com/${escapeHtml(influencerData.instagram_handle)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">@${escapeHtml(influencerData.instagram_handle)}</a></div>` : '<div class="detail-item"><strong>📷 Instagram:</strong> <span style="color: #999;">N/A</span></div>'}
+                            ${influencerData.twitter_handle ? `<div class="detail-item"><strong>🐦 Twitter/X:</strong> <a href="https://twitter.com/${escapeHtml(influencerData.twitter_handle)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">@${escapeHtml(influencerData.twitter_handle)}</a></div>` : '<div class="detail-item"><strong>🐦 Twitter/X:</strong> <span style="color: #999;">N/A</span></div>'}
+                            ${influencerData.linkedin_handle ? `<div class="detail-item"><strong>💼 LinkedIn:</strong> <a href="https://linkedin.com/in/${escapeHtml(influencerData.linkedin_handle)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">${escapeHtml(influencerData.linkedin_handle)}</a></div>` : '<div class="detail-item"><strong>💼 LinkedIn:</strong> <span style="color: #999;">N/A</span></div>'}
+                            ${influencerData.youtube_handle ? `<div class="detail-item"><strong>▶️ YouTube:</strong> <a href="https://youtube.com/${escapeHtml(influencerData.youtube_handle)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">${escapeHtml(influencerData.youtube_handle)}</a></div>` : '<div class="detail-item"><strong>▶️ YouTube:</strong> <span style="color: #999;">N/A</span></div>'}
+                            ${influencerData.facebook_handle ? `<div class="detail-item"><strong>👥 Facebook:</strong> <a href="https://facebook.com/${escapeHtml(influencerData.facebook_handle)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">${escapeHtml(influencerData.facebook_handle)}</a></div>` : '<div class="detail-item"><strong>👥 Facebook:</strong> <span style="color: #999;">N/A</span></div>'}
+                            ${influencerData.contact_link ? `<div class="detail-item" style="margin-top: 10px;"><strong>🔗 Contact Link:</strong> <a href="${escapeHtml(influencerData.contact_link)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">${escapeHtml(influencerData.contact_link)}</a></div>` : ''}
+                            ${influencerData.source_url ? `<div class="detail-item"><strong>🌐 Source URL:</strong> <a href="${escapeHtml(influencerData.source_url)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">${escapeHtml(influencerData.source_url)}</a></div>` : ''}
+                        </div>
+                        
+                        <div style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e5e7eb;">
+                            <h3 style="color: #1a1a3e; margin-bottom: 15px;">📈 Engagement Metrics</h3>
+                            <div class="detail-item"><strong>Engagement Rate:</strong> <span style="color: #4ECDC4; font-weight: 600;">${influencerData.engagement_rate || 0}%</span></div>
+                            <div class="detail-item"><strong>Avg Likes/Post:</strong> ${influencerData.avg_likes_per_post ? (influencerData.avg_likes_per_post >= 1000 ? (influencerData.avg_likes_per_post / 1000).toFixed(1) + 'K' : influencerData.avg_likes_per_post) : 'N/A'}</div>
+                            <div class="detail-item"><strong>Avg Comments/Post:</strong> ${influencerData.avg_comments_per_post ? (influencerData.avg_comments_per_post >= 1000 ? (influencerData.avg_comments_per_post / 1000).toFixed(1) + 'K' : influencerData.avg_comments_per_post) : 'N/A'}</div>
+                            <div class="detail-item"><strong>Est. Reach:</strong> <span style="color: #00d4ff;">${influencerData.estimated_reach ? (influencerData.estimated_reach >= 1000 ? (influencerData.estimated_reach / 1000).toFixed(1) + 'K' : influencerData.estimated_reach) : 'N/A'}</span></div>
+                            <div class="detail-item"><strong>Match Score:</strong> <span style="color: #5b9fff; font-weight: 600;">${influencerData.match_score || 0}%</span></div>
+                        </div>
+                    </div>
+            `;
+            
+            // Show real Instagram profile if available
+            if (influencerData.real_instagram) {
+                const insta = influencerData.real_instagram;
+                profileHTML += `
+                    <div style="background: linear-gradient(135deg, #E4405F 0%, #C13584 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                        <h3 style="margin-bottom: 15px;">📷 Instagram Original Profile</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                            <div><strong>Followers:</strong> ${insta.followers ? (insta.followers >= 1000 ? (insta.followers / 1000).toFixed(1) + 'K' : insta.followers) : 'N/A'}</div>
+                            <div><strong>Posts:</strong> ${insta.posts_count || 0}</div>
+                            <div><strong>Total Likes:</strong> ${insta.total_likes ? (insta.total_likes >= 1000 ? (insta.total_likes / 1000).toFixed(1) + 'K' : insta.total_likes) : 'N/A'}</div>
+                            <div><strong>Avg Likes:</strong> ${insta.average_likes ? Math.round(insta.average_likes) : 'N/A'}</div>
+                        </div>
+                        ${insta.hashtags && insta.hashtags.length > 0 ? `
+                            <div style="margin-top: 15px;">
+                                <strong>Hashtags Used:</strong> ${insta.hashtags.slice(0, 20).map(tag => `<span style="background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 8px; margin: 4px; display: inline-block;">${escapeHtml(tag)}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                        ${insta.media_items && insta.media_items.length > 0 ? `
+                            <div style="margin-top: 15px;">
+                                <strong>Recent Posts:</strong>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 10px;">
+                                    ${insta.media_items.slice(0, 6).map(item => `
+                                        <div style="position: relative; border-radius: 8px; overflow: hidden; aspect-ratio: 1;">
+                                            <img src="${item.url}" alt="Post" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
+                                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); color: white; padding: 5px; font-size: 0.8em;">
+                                                ❤️ ${item.likes || 0} 💬 ${item.comments || 0}
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            // Show real Twitter profile if available
+            if (influencerData.real_twitter) {
+                const twitter = influencerData.real_twitter;
+                profileHTML += `
+                    <div style="background: linear-gradient(135deg, #1DA1F2 0%, #0d8bd9 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                        <h3 style="margin-bottom: 15px;">🐦 Twitter/X Original Profile</h3>
+                        ${twitter.bio ? `<div style="margin-bottom: 15px; font-style: italic;">"${escapeHtml(twitter.bio)}"</div>` : ''}
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                            <div><strong>Followers:</strong> ${twitter.followers ? (twitter.followers >= 1000 ? (twitter.followers / 1000).toFixed(1) + 'K' : twitter.followers) : 'N/A'}</div>
+                            <div><strong>Tweets:</strong> ${twitter.tweets_count || 0}</div>
+                            <div><strong>Total Likes:</strong> ${twitter.total_likes ? (twitter.total_likes >= 1000 ? (twitter.total_likes / 1000).toFixed(1) + 'K' : twitter.total_likes) : 'N/A'}</div>
+                        </div>
+                        ${twitter.hashtags && twitter.hashtags.length > 0 ? `
+                            <div style="margin-top: 15px;">
+                                <strong>Hashtags Used:</strong> ${twitter.hashtags.slice(0, 20).map(tag => `<span style="background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 8px; margin: 4px; display: inline-block;">${escapeHtml(tag)}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            // Show real LinkedIn profile if available
+            if (influencerData.real_linkedin) {
+                const linkedin = influencerData.real_linkedin;
+                profileHTML += `
+                    <div style="background: linear-gradient(135deg, #0077B5 0%, #005885 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                        <h3 style="margin-bottom: 15px;">💼 LinkedIn Original Profile</h3>
+                        ${linkedin.headline ? `<div style="margin-bottom: 10px; font-weight: 600;">${escapeHtml(linkedin.headline)}</div>` : ''}
+                        ${linkedin.summary ? `<div style="margin-bottom: 15px; opacity: 0.9;">${escapeHtml(linkedin.summary.substring(0, 300))}${linkedin.summary.length > 300 ? '...' : ''}</div>` : ''}
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                            ${linkedin.location ? `<div><strong>Location:</strong> ${escapeHtml(linkedin.location)}</div>` : ''}
+                            <div><strong>Posts:</strong> ${linkedin.posts_count || 0}</div>
+                        </div>
+                        ${linkedin.hashtags && linkedin.hashtags.length > 0 ? `
+                            <div style="margin-top: 15px;">
+                                <strong>Hashtags Used:</strong> ${linkedin.hashtags.slice(0, 20).map(tag => `<span style="background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 8px; margin: 4px; display: inline-block;">${escapeHtml(tag)}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            // Show real views and hashtags if available
+            if (influencerData.real_total_views || influencerData.real_hashtags) {
+                profileHTML += `
+                    <div style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e5e7eb; margin-bottom: 20px;">
+                        <h3 style="color: #1a1a3e; margin-bottom: 15px;">📊 Real Engagement Data</h3>
+                        ${influencerData.real_total_views ? `
+                            <div class="detail-item"><strong>Total Views:</strong> <span style="color: #00d4ff; font-weight: 600;">${(influencerData.real_total_views >= 1000 ? (influencerData.real_total_views / 1000).toFixed(1) + 'K' : influencerData.real_total_views).toLocaleString()}</span></div>
+                        ` : ''}
+                        ${influencerData.real_average_views ? `
+                            <div class="detail-item"><strong>Avg Views/Post:</strong> <span style="color: #5b9fff;">${(influencerData.real_average_views >= 1000 ? (influencerData.real_average_views / 1000).toFixed(1) + 'K' : influencerData.real_average_views).toLocaleString()}</span></div>
+                        ` : ''}
+                        ${influencerData.real_hashtags && influencerData.real_hashtags.length > 0 ? `
+                            <div style="margin-top: 15px;">
+                                <strong>All Hashtags:</strong>
+                                <div style="margin-top: 10px;">
+                                    ${influencerData.real_hashtags.slice(0, 30).map(tag => `<span style="background: #e0e7ff; color: #4f46e5; padding: 4px 10px; border-radius: 12px; margin: 4px; display: inline-block; font-size: 0.85em;">${escapeHtml(tag)}</span>`).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            profileHTML += `
+                    <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107; margin-top: 20px;">
+                        <strong>💡 Note:</strong> This is the original profile data fetched from their social media platforms. 
+                        ${!influencerData.real_instagram && !influencerData.real_twitter && !influencerData.real_linkedin ? 
+                            'Real profile data will be available when social media API tokens are configured.' : 
+                            'Data is fetched in real-time from their actual profiles.'}
+                    </div>
+                </div>
+            `;
+            
+            resultsDiv.innerHTML = profileHTML;
+            
+            // Scroll to top of results smoothly - NO RELOADING
+            setTimeout(() => {
+                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+        
+        function analyzeProfile(influencerId) {
+            // Find influencer in current recommendations - NO LOADING, show immediately
+            const influencer = currentRecommendations.find(inf => 
+                (inf.email && inf.email === influencerId) || 
+                (inf.id && inf.id.toString() === influencerId.toString()) ||
+                (inf.full_name && inf.full_name === influencerId)
+            );
+            
+            if (influencer) {
+                // Show original profile from stored data immediately - NO LOADING
+                showOriginalProfile(influencer);
+                return;
+            }
+            
+            // If not found, show error immediately - NO LOADING
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `<div class="error">
+                <h3>⚠️ Profile Not Found</h3>
+                <p>Could not find this influencer in the current recommendations.</p>
+                <p><strong>💡 Try:</strong> Go back and click "View Original Profile" from the influencer list.</p>
+            </div>`;
+        }
+        
         function displayAnalysis(analysis) {
+            // This function is deprecated - we use showOriginalProfile instead
+            // But keep for backward compatibility - NO RELOADING
             const resultsDiv = document.getElementById('results');
             const gpt = analysis.gpt_analysis || {};
             const hashtags = analysis.hashtags_analysis || {};
             const views = analysis.views_metrics || {};
             const mediaItems = analysis.media_items || [];
             
-            // Change body background to dark for analysis view
-            document.body.classList.add('analysis-view');
+            // Don't change body background - keep it normal, NO RELOADING
+            // document.body.classList.add('analysis-view');
             
             // Get actual content examples
             const actualContent = gpt.actual_content_examples || [];
@@ -1057,7 +1693,7 @@
                         <ul style="line-height: 1.8; color: #e0e0e0;">${(gpt.recommendations || []).map(r => `<li>${r}</li>`).join('')}</ul>
                     </div>
                     
-                    <button onclick="document.body.classList.remove('analysis-view'); location.reload()" style="background: #667eea; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 20px;">← Back to Recommendations</button>
+                    <button onclick="displayRecommendations(currentRecommendations, null, null)" style="background: #667eea; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 20px;">← Back to Recommendations</button>
                 </div>
             `;
         }
@@ -1070,10 +1706,54 @@
             return div.innerHTML;
         }
         
-        function displayRecommendations(recommendations) {
+        function displayRecommendations(recommendations, tieredInfluencers = null, tierCounts = null) {
+            console.log('displayRecommendations called with', recommendations ? recommendations.length : 0, 'recommendations');
+            
+            // CRITICAL: Stop any loading animation immediately - NO MORE RELOADING
+            if (window.currentLoadingInterval) {
+                clearInterval(window.currentLoadingInterval);
+                window.currentLoadingInterval = null;
+            }
+            
+            // Store current recommendations for profile viewing
+            currentRecommendations = recommendations || [];
+            
+            if (!recommendations || recommendations.length === 0) {
+                console.error('displayRecommendations: No recommendations provided!');
+                return;
+            }
+            
+            // Show which platforms were selected (if any)
+            const selectedPlatforms = currentRecommendations.length > 0 && currentRecommendations[0].selected_platforms 
+                ? currentRecommendations[0].selected_platforms 
+                : null;
+            // CRITICAL: Ensure form ALWAYS stays visible when showing recommendations
+            const filterForm = document.getElementById('filterForm');
+            const filtersPanel = filterForm ? filterForm.closest('.filters-panel') : document.querySelector('.filters-panel');
+            
+            // Force form to stay visible - NEVER remove it
+            if (filterForm) {
+                filterForm.style.display = 'block';
+                filterForm.style.visibility = 'visible';
+                filterForm.style.opacity = '1';
+                filterForm.style.pointerEvents = 'auto';
+            }
+            if (filtersPanel) {
+                filtersPanel.style.display = 'block';
+                filtersPanel.style.visibility = 'visible';
+                filtersPanel.style.opacity = '1';
+            }
+            
             const resultsDiv = document.getElementById('results');
             
-            if (recommendations.length === 0) {
+            if (!resultsDiv) {
+                console.error('resultsDiv not found! Cannot display recommendations.');
+                alert('Error: Results container not found. Please refresh the page.');
+                return;
+            }
+            
+            if (!recommendations || recommendations.length === 0) {
+                console.log('displayRecommendations: No recommendations to display');
                 const industryFilter = document.getElementById('industry')?.value || '';
                 let errorMessage = '';
                 
@@ -1133,40 +1813,243 @@
                 }
             }
             
-            resultsDiv.innerHTML = filterSummary + recommendations.map((inf, index) => `
-                <div class="recommendation-card">
-                    <div class="card-header">
-                        <div class="influencer-name">${escapeHtml(inf.full_name || inf.email || 'Unknown')}</div>
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <div class="match-score">${inf.match_score || 0}% Match</div>
-                            <button class="analyze-btn" onclick="analyzeProfile('${escapeHtml(inf.email || inf.id || index)}')" style="background: linear-gradient(135deg, #00d4ff 0%, #5b9fff 100%); color: white; border: none; padding: 12px 20px; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 600; box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3); transition: all 0.3s ease; letter-spacing: 0.3px;">✨ Analyze with NOVA</button>
+            // Helper function to get platform icons
+            function getPlatformIcons(inf) {
+                const platforms = [];
+                if (inf.instagram_handle || (inf.platform && inf.platform.toLowerCase().includes('instagram'))) {
+                    platforms.push('📷 Instagram');
+                }
+                if (inf.twitter_handle || (inf.platform && inf.platform.toLowerCase().includes('twitter'))) {
+                    platforms.push('🐦 Twitter/X');
+                }
+                if (inf.linkedin_handle || (inf.platform && inf.platform.toLowerCase().includes('linkedin'))) {
+                    platforms.push('💼 LinkedIn');
+                }
+                if (inf.youtube_handle || (inf.platform && inf.platform.toLowerCase().includes('youtube'))) {
+                    platforms.push('▶️ YouTube');
+                }
+                if (inf.facebook_handle || (inf.platform && inf.platform.toLowerCase().includes('facebook'))) {
+                    platforms.push('👥 Facebook');
+                }
+                if (platforms.length === 0 && inf.platform) {
+                    platforms.push(inf.platform);
+                }
+                return platforms.length > 0 ? platforms.join(' • ') : 'Multiple Platforms';
+            }
+            
+            // Helper function to get tier badge color
+            function getTierBadge(tier) {
+                const badges = {
+                    'Top/Macro': { emoji: '⭐', color: '#FFD700', bg: 'rgba(255, 215, 0, 0.2)' },
+                    'Mid-tier': { emoji: '🔥', color: '#FF6B6B', bg: 'rgba(255, 107, 107, 0.2)' },
+                    'Micro': { emoji: '💎', color: '#4ECDC4', bg: 'rgba(78, 205, 196, 0.2)' },
+                    'Nano': { emoji: '✨', color: '#95E1D3', bg: 'rgba(149, 225, 211, 0.2)' },
+                    'Emerging': { emoji: '🌱', color: '#A8E6CF', bg: 'rgba(168, 230, 207, 0.2)' }
+                };
+                return badges[tier] || badges['Emerging'];
+            }
+            
+            // Helper function to render compact influencer node card
+            function renderInfluencerNode(inf, globalIndex, isTopMatch = false) {
+                const tier = inf.tier || 'Emerging';
+                const tierBadge = getTierBadge(tier);
+                const topMatchStyle = isTopMatch ? 'border: 3px solid #00d4ff; box-shadow: 0 8px 30px rgba(0, 212, 255, 0.4); background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(91, 159, 255, 0.1) 100%);' : '';
+                const topMatchLabel = isTopMatch ? '<div style="position: absolute; top: -8px; right: -8px; background: linear-gradient(135deg, #00d4ff 0%, #5b9fff 100%); color: white; padding: 4px 12px; border-radius: 15px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(0, 212, 255, 0.5); z-index: 10;">🏆 TOP</div>' : '';
+                
+                // Format numbers
+                const formatNumber = (num) => {
+                    if (!num) return '0';
+                    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+                    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+                    return num.toString();
+                };
+                
+                const engagementRate = inf.engagement_rate || 0;
+                const avgLikes = inf.avg_likes_per_post || 0;
+                const avgComments = inf.avg_comments_per_post || 0;
+                const estimatedReach = inf.estimated_reach || 0;
+                
+                // Check if real profile data is available
+                const hasRealData = inf.real_instagram || inf.real_twitter || inf.real_linkedin;
+                const realDataBadge = hasRealData ? '<div style="position: absolute; top: -8px; left: -8px; background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%); color: white; padding: 4px 10px; border-radius: 15px; font-size: 9px; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(78, 205, 196, 0.5); z-index: 10;">✅ REAL DATA</div>' : '';
+                
+                return `
+                <div class="influencer-node" style="position: relative; ${topMatchStyle}">
+                    ${topMatchLabel}
+                    ${realDataBadge}
+                    <div class="node-header">
+                        <div class="node-name">${escapeHtml((inf.full_name || inf.email || 'Unknown').substring(0, 25))}${(inf.full_name || '').length > 25 ? '...' : ''}</div>
+                        <div class="node-match-score">${inf.match_score || 0}%</div>
+                        </div>
+                    
+                    <div class="node-tier-badge" style="background: ${tierBadge.bg}; color: ${tierBadge.color}; border: 1px solid ${tierBadge.color};">
+                        ${tierBadge.emoji} ${tier}
+                    </div>
+                    
+                    <div class="node-engagement">
+                        <div class="engagement-metric">
+                            <div class="metric-label">Engagement Rate</div>
+                            <div class="metric-value" style="color: ${engagementRate >= 4 ? '#4ECDC4' : engagementRate >= 2 ? '#FFD700' : '#FF6B6B'};">${engagementRate}%</div>
+                        </div>
+                        <div class="engagement-metric">
+                            <div class="metric-label">Avg Likes</div>
+                            <div class="metric-value">${formatNumber(avgLikes)}</div>
+                        </div>
+                        <div class="engagement-metric">
+                            <div class="metric-label">Avg Comments</div>
+                            <div class="metric-value">${formatNumber(avgComments)}</div>
+                        </div>
+                        <div class="engagement-metric">
+                            <div class="metric-label">Est. Reach</div>
+                            <div class="metric-value" style="color: #00d4ff;">${formatNumber(estimatedReach)}</div>
                         </div>
                     </div>
                     
-                    <div class="influencer-details">
-                        <div class="detail-item"><strong>Category/Industry:</strong> ${escapeHtml(inf.industry || inf.category || 'N/A')}</div>
-                        <div class="detail-item"><strong>Domain/Niche:</strong> ${escapeHtml(inf.domain_niche || inf.job_title || 'N/A')}</div>
-                        <div class="detail-item"><strong>Location:</strong> ${escapeHtml(inf.location || 'India')}</div>
-                        <div class="detail-item"><strong>Email:</strong> ${inf.email ? `<a href="mailto:${escapeHtml(inf.email)}">${escapeHtml(inf.email)}</a>` : 'N/A'}</div>
+                    <div class="node-details">
+                        <div class="node-detail-item">
+                            <span class="detail-icon">👥</span>
+                            <span>${escapeHtml(inf.followers || 'N/A')} ${inf.data_source === 'real' ? '<span style="color: #4ECDC4; font-size: 0.8em;" title="Real data from API">✅</span>' : '<span style="color: #999; font-size: 0.8em;" title="Estimated data">📊</span>'}</span>
+                        </div>
+                        <div class="node-detail-item">
+                            <span class="detail-icon">📍</span>
+                            <span>${escapeHtml((inf.location || 'India').substring(0, 15))}</span>
+                        </div>
+                        <div class="node-detail-item">
+                            <span class="detail-icon">🏷️</span>
+                            <span>${escapeHtml((inf.industry || inf.category || 'N/A').substring(0, 20))}</span>
+                        </div>
                     </div>
                     
-                    ${inf.contact_type ? `<div class="detail-item"><strong>Contact Type:</strong> ${escapeHtml(inf.contact_type)}</div>` : ''}
-                    ${inf.contact_link ? `<div class="detail-item"><strong>Contact Link:</strong> <a href="${escapeHtml(inf.contact_link)}" target="_blank">${escapeHtml(inf.contact_link)}</a></div>` : ''}
-                    ${inf.use_case ? `<div class="detail-item"><strong>Use Case:</strong> ${escapeHtml(inf.use_case)}</div>` : ''}
-                    ${inf.source_url ? `<div class="detail-item"><strong>Source:</strong> <a href="${escapeHtml(inf.source_url)}" target="_blank">View Source</a></div>` : ''}
+                    <div class="node-platforms">
+                        ${getPlatformIcons(inf).split(' • ').slice(0, 3).map(p => `<span class="platform-tag">${p}</span>`).join('')}
+                    </div>
                     
-                    ${inf.linkedin_handle ? `<div class="detail-item"><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/${inf.linkedin_handle}" target="_blank">${inf.linkedin_handle}</a></div>` : ''}
-                    ${inf.twitter_handle ? `<div class="detail-item"><strong>Twitter:</strong> <a href="https://twitter.com/${inf.twitter_handle}" target="_blank">@${inf.twitter_handle}</a></div>` : ''}
-                    
-                    ${inf.ai_reasoning ? `
-                        <div class="ai-reasoning">
-                            <h4>✨ NOVA Analysis</h4>
-                            <p>${inf.ai_reasoning}</p>
-                            ${inf.key_strengths ? `<p><strong>Strengths:</strong> ${Array.isArray(inf.key_strengths) ? inf.key_strengths.join(', ') : inf.key_strengths}</p>` : ''}
+                    <button class="node-analyze-btn" onclick="showOriginalProfileFromIndex(${globalIndex})">
+                        👤 View Original Profile
+                    </button>
                         </div>
-                    ` : ''}
+            `;
+            }
+            
+            // Show selected platforms message
+            let platformMessage = '';
+            if (selectedPlatforms && selectedPlatforms.length > 0) {
+                const platformEmojis = {
+                    'Instagram': '📷',
+                    'Twitter': '🐦',
+                    'LinkedIn': '💼',
+                    'YouTube': '▶️',
+                    'Facebook': '👥'
+                };
+                const platformDisplay = selectedPlatforms.map(p => `${platformEmojis[p] || ''} ${p}`).join(', ');
+                platformMessage = `<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
+                    <strong style="font-size: 1.1em;">🎯 Showing Influencers From Selected Platforms:</strong><br>
+                    <span style="font-size: 1.05em; margin-top: 8px; display: inline-block;">${platformDisplay}</span><br>
+                    <small style="opacity: 0.9; margin-top: 5px; display: block;">Only influencers active on these platforms are displayed</small>
+                </div>`;
+            }
+            
+            // Display tier summary if available
+            let tierSummary = '';
+            if (tierCounts && Object.keys(tierCounts).length > 0) {
+                const totalCount = Object.values(tierCounts).reduce((a, b) => a + b, 0);
+                tierSummary = `
+                    <div style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(91, 159, 255, 0.1) 100%); border: 2px solid rgba(0, 212, 255, 0.3); border-radius: 15px; padding: 20px; margin-bottom: 30px;">
+                        <h3 style="color: #fff; margin-bottom: 15px; font-size: 1.3em;">📊 Influencer Tier Breakdown</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                            ${Object.entries(tierCounts).filter(([tier, count]) => count > 0).map(([tier, count]) => {
+                                const badge = getTierBadge(tier);
+                                return `
+                                    <div style="background: ${badge.bg}; border: 1px solid ${badge.color}; border-radius: 10px; padding: 15px; text-align: center;">
+                                        <div style="font-size: 24px; margin-bottom: 5px;">${badge.emoji}</div>
+                                        <div style="color: ${badge.color}; font-weight: 700; font-size: 1.1em; margin-bottom: 5px;">${tier}</div>
+                                        <div style="color: #fff; font-size: 1.5em; font-weight: 800;">${count}</div>
+                                        <div style="color: #aaa; font-size: 0.85em; margin-top: 3px;">influencer${count !== 1 ? 's' : ''}</div>
                 </div>
-            `).join('');
+                                `;
+                            }).join('')}
+                        </div>
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.1); text-align: center;">
+                            <span style="color: #00d4ff; font-size: 1.2em; font-weight: 700;">Total: ${totalCount} Influencers</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Organize by tier if tiered data available, otherwise show all
+            let content = '';
+            
+            // Add header
+            content += `<div style="background: linear-gradient(135deg, #00d4ff 0%, #5b9fff 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);">
+                <h2 style="margin: 0; font-size: 1.8em; display: flex; align-items: center; gap: 10px;">
+                    <span>✨</span>
+                    <span>✨ ChatGPT found ${recommendations.length} Influencer${recommendations.length !== 1 ? 's' : ''} matching your requirements</span>
+                </h2>
+                <p style="margin: 10px 0 0 0; opacity: 0.9;">Based on your requirements</p>
+            </div>`;
+            
+            content += platformMessage + filterSummary + tierSummary;
+            
+            // Create a map to find global index from influencer object
+            const influencerToIndex = new Map();
+            recommendations.forEach((inf, idx) => {
+                influencerToIndex.set(inf, idx);
+            });
+            
+            if (tieredInfluencers && Object.keys(tieredInfluencers).length > 0) {
+                // Display by tier in node/graph view
+                const tierOrder = ['Top/Macro', 'Mid-tier', 'Micro', 'Nano', 'Emerging'];
+                tierOrder.forEach(tier => {
+                    const tierInfluencers = tieredInfluencers[tier] || [];
+                    if (tierInfluencers.length > 0) {
+                        const badge = getTierBadge(tier);
+                        const isTopTier = tier === 'Top/Macro';
+                        const tierHeaderStyle = isTopTier ? 'background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 215, 0, 0.1) 100%); border: 2px solid #FFD700;' : `background: ${badge.bg}; border: 1px solid ${badge.color};`;
+                        
+                        content += `
+                            <div style="margin: 30px 0;">
+                                <div style="${tierHeaderStyle} border-radius: 12px; padding: 15px 20px; margin-bottom: 20px;">
+                                    <h3 style="color: ${badge.color}; margin: 0; font-size: 1.4em; display: flex; align-items: center; gap: 10px;">
+                                        <span style="font-size: 1.5em;">${badge.emoji}</span>
+                                        <span>${tier} Influencers</span>
+                                        <span style="background: rgba(255, 255, 255, 0.2); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.7em; font-weight: 700;">${tierInfluencers.length} ${tierInfluencers.length === 1 ? 'influencer' : 'influencers'}</span>
+                                    </h3>
+                                </div>
+                                <div class="influencer-nodes-grid">
+                                    ${tierInfluencers.map((inf, idx) => {
+                                        const globalIndex = influencerToIndex.get(inf) !== undefined ? influencerToIndex.get(inf) : recommendations.indexOf(inf);
+                                        const isTopMatch = inf.match_score >= 90 || (tier === 'Top/Macro' && idx === 0);
+                                        return renderInfluencerNode(inf, globalIndex >= 0 ? globalIndex : idx, isTopMatch);
+                                    }).join('')}
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+            } else {
+                // Fallback: display all recommendations in node view (highlight top 3)
+                content += '<div class="influencer-nodes-grid">';
+                content += recommendations.map((inf, index) => {
+                    const isTopMatch = index < 3 && inf.match_score >= 85;
+                    return renderInfluencerNode(inf, index, isTopMatch);
+                }).join('');
+                content += '</div>';
+            }
+            
+            // Ensure resultsDiv still exists before setting content
+            if (!resultsDiv) {
+                console.error('resultsDiv disappeared before setting content!');
+                return;
+            }
+            
+            console.log('Setting resultsDiv.innerHTML with', content.length, 'characters');
+            resultsDiv.innerHTML = content;
+            console.log('Recommendations displayed successfully');
+            
+            // Scroll to results
+            setTimeout(() => {
+                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
         }
     </script>
 </body>

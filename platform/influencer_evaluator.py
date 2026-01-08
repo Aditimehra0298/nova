@@ -8,6 +8,7 @@ import os
 from typing import Dict, List, Optional
 from data_manager import InfluencerDataManager
 from langchain_openai import ChatOpenAI
+from langchain.schema import HumanMessage
 
 class InfluencerEvaluator:
     """Evaluate influencer performance metrics"""
@@ -27,9 +28,13 @@ class InfluencerEvaluator:
             except:
                 pass
     
-    def evaluate(self, influencer_id: str) -> Dict:
+    def evaluate(self, influencer_id: str, filters: Optional[Dict] = None) -> Dict:
         """
         Evaluate influencer on multiple metrics
+        
+        Args:
+            influencer_id: Influencer ID or influencer data dict
+            filters: Optional filters to help find the influencer
         
         Returns:
         {
@@ -41,9 +46,13 @@ class InfluencerEvaluator:
             "metrics": {...}
         }
         """
-        influencer = self.data_manager.get_influencer_by_id(influencer_id)
-        if not influencer:
-            return {"error": "Influencer not found"}
+        # If influencer_id is already a dict, use it directly
+        if isinstance(influencer_id, dict):
+            influencer = influencer_id
+        else:
+            influencer = self.data_manager.get_influencer_by_id(influencer_id, filters)
+            if not influencer:
+                return {"error": "Influencer not found"}
         
         # Calculate metrics
         metrics = self._calculate_metrics(influencer)

@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>NOVA - Influencer Recommendation Platform</title>
     <style>
         * {
@@ -18,6 +21,12 @@
             animation: gradientShift 15s ease infinite;
             min-height: 100vh;
             padding: 20px;
+        }
+        
+        @media (max-width: 640px) {
+            body {
+                padding: 10px;
+            }
         }
         
         @keyframes gradientShift {
@@ -113,6 +122,412 @@
         @media (max-width: 968px) {
             .main-content {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .header {
+                padding: 30px 15px 25px;
+                margin-bottom: 30px;
+            }
+            
+            .header h1 {
+                font-size: 2.5em;
+                margin-bottom: 15px;
+            }
+            
+            .header p {
+                font-size: 1.2em;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .form-actions .btn,
+            .form-actions .btn-secondary {
+                width: 100%;
+                padding: 16px 24px;
+                font-size: 16px;
+            }
+            
+            .quick-tips {
+                padding: 16px;
+                margin-bottom: 20px;
+            }
+            
+            .quick-tips h3 {
+                font-size: 15px;
+            }
+            
+            .quick-tips li {
+                font-size: 13px;
+                padding: 6px 0;
+            }
+            
+            .filters-panel,
+            .results-panel {
+                padding: 24px;
+                border-radius: 16px;
+            }
+            
+            .form-group {
+                margin-bottom: 20px;
+            }
+            
+            .form-group label {
+                font-size: 13px;
+                margin-bottom: 8px;
+            }
+            
+            .form-group input,
+            .form-group select {
+                padding: 12px 14px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+            
+            .help-text {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+            
+            /* Make platform checkboxes stack on mobile */
+            .form-group div[style*="grid-template-columns: repeat(2, 1fr)"] {
+                grid-template-columns: 1fr !important;
+                gap: 8px !important;
+            }
+            
+            /* Make content type checkboxes stack on mobile */
+            .form-group div[style*="max-height: 300px"] {
+                max-height: 250px !important;
+                grid-template-columns: 1fr !important;
+            }
+            
+            /* Better touch targets for checkboxes */
+            .form-group label[style*="cursor: pointer"] {
+                padding: 12px !important;
+                min-height: 44px; /* iOS touch target minimum */
+            }
+            
+            .form-group input[type="checkbox"] {
+                width: 20px !important;
+                height: 20px !important;
+                min-width: 20px !important;
+                min-height: 20px !important;
+            }
+            
+            /* Recommendation cards on mobile */
+            .recommendation-card {
+                padding: 20px !important;
+                margin-bottom: 16px !important;
+            }
+            
+            .influencer-nodes-grid {
+                grid-template-columns: 1fr !important;
+                gap: 16px !important;
+            }
+            
+            .influencer-node {
+                padding: 16px !important;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .header {
+                padding: 25px 10px 20px;
+                margin-bottom: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+                letter-spacing: -1px;
+                margin-bottom: 12px;
+            }
+            
+            .header p {
+                font-size: 1em;
+                line-height: 1.5;
+            }
+            
+            .header .nova-badge {
+                font-size: 0.75em;
+                padding: 8px 18px;
+                margin-bottom: 15px;
+            }
+            
+            .filters-panel,
+            .results-panel {
+                padding: 16px;
+                border-radius: 12px;
+            }
+            
+            .filters-panel h2,
+            .results-panel h2 {
+                font-size: 1.5em;
+                margin-bottom: 20px;
+            }
+            
+            .form-group {
+                margin-bottom: 18px;
+            }
+            
+            .form-group label {
+                font-size: 13px;
+                margin-bottom: 8px;
+            }
+            
+            .form-group input,
+            .form-group select {
+                padding: 14px 16px;
+                font-size: 16px; /* Prevents zoom on iOS */
+                border-radius: 8px;
+            }
+            
+            .help-text {
+                font-size: 12px;
+                padding: 8px 10px;
+                line-height: 1.4;
+            }
+            
+            .quick-tips {
+                padding: 14px;
+                margin-bottom: 18px;
+            }
+            
+            .quick-tips h3 {
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+            
+            .quick-tips li {
+                font-size: 12px;
+                padding: 5px 0;
+            }
+            
+            .btn {
+                padding: 16px 24px;
+                font-size: 16px;
+                border-radius: 10px;
+                min-height: 48px; /* Better touch target */
+            }
+            
+            .btn-secondary {
+                padding: 16px 24px;
+                font-size: 16px;
+                border-radius: 10px;
+                min-height: 48px; /* Better touch target */
+            }
+            
+            /* Stack platform checkboxes on small mobile */
+            .form-group div[style*="grid-template-columns: repeat(2, 1fr)"] {
+                grid-template-columns: 1fr !important;
+                gap: 10px !important;
+                padding: 10px !important;
+            }
+            
+            /* Content type checkboxes */
+            .form-group div[style*="max-height: 300px"] {
+                max-height: 200px !important;
+                grid-template-columns: 1fr !important;
+                padding: 10px !important;
+            }
+            
+            /* Better touch targets */
+            .form-group label[style*="cursor: pointer"] {
+                padding: 14px 12px !important;
+                min-height: 48px; /* iOS touch target minimum */
+                font-size: 14px !important;
+            }
+            
+            .form-group input[type="checkbox"] {
+                width: 22px !important;
+                height: 22px !important;
+                min-width: 22px !important;
+                min-height: 22px !important;
+                margin-right: 12px !important;
+            }
+            
+            /* Results display */
+            .recommendation-card {
+                padding: 18px !important;
+                margin-bottom: 14px !important;
+            }
+            
+            .influencer-nodes-grid {
+                grid-template-columns: 1fr !important;
+                gap: 14px !important;
+            }
+            
+            .influencer-node {
+                padding: 14px !important;
+            }
+            
+            /* Empty state on mobile */
+            #results > div[style*="text-align: center"] {
+                padding: 40px 15px !important;
+            }
+            
+            #results > div[style*="text-align: center"] > div[style*="font-size: 64px"] {
+                font-size: 48px !important;
+                margin-bottom: 15px !important;
+            }
+            
+            #results > div[style*="text-align: center"] h3 {
+                font-size: 20px !important;
+            }
+            
+            #results > div[style*="text-align: center"] p {
+                font-size: 14px !important;
+            }
+            
+            #results > div[style*="text-align: center"] > div[style*="margin-top: 30px"] {
+                margin-top: 20px !important;
+                padding: 16px !important;
+            }
+            
+            #results > div[style*="text-align: center"] ul {
+                font-size: 13px !important;
+                line-height: 1.6 !important;
+            }
+            
+            /* Loading state on mobile */
+            .loading {
+                padding: 30px 15px !important;
+            }
+            
+            .loading h3 {
+                font-size: 18px !important;
+            }
+            
+            .loading p {
+                font-size: 14px !important;
+            }
+            
+            .loading button {
+                width: 100% !important;
+                padding: 14px 20px !important;
+                font-size: 15px !important;
+            }
+            
+            /* Profile detail view on mobile */
+            div[style*="display: grid"][style*="grid-template-columns: repeat(auto-fit"] {
+                grid-template-columns: 1fr !important;
+                gap: 16px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .header p {
+                font-size: 0.95em;
+            }
+            
+            .filters-panel,
+            .results-panel {
+                padding: 14px;
+            }
+            
+            .form-group input,
+            .form-group select {
+                padding: 12px 14px;
+            }
+            
+            .form-group label {
+                font-size: 12px;
+            }
+            
+            .help-text {
+                font-size: 11px;
+                padding: 6px 8px;
+            }
+            
+            .quick-tips {
+                padding: 12px;
+            }
+            
+            .quick-tips h3 {
+                font-size: 13px;
+            }
+            
+            .quick-tips li {
+                font-size: 11px;
+            }
+            
+            .btn,
+            .btn-secondary {
+                padding: 14px 20px;
+                font-size: 15px;
+            }
+        }
+        
+        /* Touch-friendly improvements for all mobile */
+        @media (max-width: 968px) {
+            /* Ensure all interactive elements are touch-friendly */
+            button,
+            .btn,
+            .btn-secondary,
+            input[type="checkbox"],
+            input[type="radio"],
+            select,
+            label[for] {
+                -webkit-tap-highlight-color: rgba(0, 212, 255, 0.2);
+            }
+            
+            /* Prevent text selection on buttons */
+            button,
+            .btn,
+            .btn-secondary {
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                user-select: none;
+            }
+            
+            /* Better scrolling */
+            .form-group div[style*="overflow-y: auto"] {
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* Make detail items stack better */
+            .detail-item {
+                font-size: 14px !important;
+                padding: 8px 0 !important;
+            }
+            
+            /* Profile detail sections */
+            div[style*="display: grid"][style*="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))"] {
+                grid-template-columns: 1fr !important;
+                gap: 16px !important;
+            }
+            
+            /* Node detail items */
+            .node-detail-item {
+                font-size: 13px !important;
+            }
+            
+            /* Engagement metrics */
+            .node-engagement {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px !important;
+            }
+            
+            .engagement-metric {
+                padding: 10px !important;
+            }
+            
+            /* Platform tags */
+            .platform-tag {
+                font-size: 11px !important;
+                padding: 4px 8px !important;
+            }
+            
+            /* Buttons in cards */
+            .node-analyze-btn {
+                padding: 12px 16px !important;
+                font-size: 14px !important;
+                min-height: 44px !important;
             }
         }
         
@@ -160,6 +575,121 @@
             font-weight: 600;
             font-size: 14px;
             letter-spacing: 0.3px;
+        }
+        
+        .help-text {
+            color: #666;
+            font-size: 13px;
+            margin-top: 6px;
+            line-height: 1.5;
+            padding: 8px 12px;
+            background: #f0f9ff;
+            border-left: 3px solid #00d4ff;
+            border-radius: 4px;
+        }
+        
+        .help-text strong {
+            color: #1a1a3e;
+        }
+        
+        .info-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: #e0f2fe;
+            color: #0369a1;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        
+        .quick-tips {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 2px solid #00d4ff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .quick-tips h3 {
+            color: #0369a1;
+            margin-bottom: 12px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .quick-tips ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .quick-tips li {
+            padding: 8px 0;
+            color: #1e40af;
+            font-size: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        
+        .quick-tips li::before {
+            content: '✓';
+            color: #00d4ff;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #1a1a3e;
+            border: 2px solid #d1d5db;
+            padding: 18px 35px;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: #e5e7eb;
+            border-color: #9ca3af;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .required-indicator {
+            color: #ef4444;
+            margin-left: 4px;
+        }
+        
+        .field-group {
+            background: #fafafa;
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .field-group h4 {
+            color: #1a1a3e;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .form-group input,
@@ -670,6 +1200,17 @@
         <div class="main-content">
             <div class="filters-panel">
                 <h2>📋 Client Requirements</h2>
+                
+                <div class="quick-tips">
+                    <h3>💡 Quick Tips</h3>
+                    <ul>
+                        <li>Select specific platforms to see only handles for those platforms</li>
+                        <li>Industry selection filters results to that specific industry</li>
+                        <li>You can leave fields empty for broader search results</li>
+                        <li>Upload a product image for better AI matching</li>
+                    </ul>
+                </div>
+                
                 <form id="filterForm">
                     <div class="form-group">
                         <label for="productType">Product Type</label>
@@ -699,20 +1240,24 @@
                             <option value="Video Content">Video Content</option>
                             <option value="Other">Other</option>
                         </select>
-                        <small style="color: #666; display: block; margin-top: 5px;">💡 Software options match CSV categories: Software Products, Technology Creators, Digital Products</small>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="productImage">Upload Product Image (Optional)</label>
-                        <input type="file" id="productImage" name="product_image" accept="image/*" style="padding: 8px;">
-                        <small style="color: #666; display: block; margin-top: 5px;">Upload an image to help us find better matches</small>
-                        <div id="imagePreview" style="margin-top: 10px; display: none;">
-                            <img id="previewImg" src="" alt="Preview" style="max-width: 200px; max-height: 200px; border-radius: 8px; border: 2px solid #e0e0e0;">
+                        <div class="help-text">
+                            💡 <strong>Optional:</strong> Helps AI find influencers who have promoted similar products
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="industry">Industry/Category</label>
+                        <label for="productImage">Upload Product Image</label>
+                        <input type="file" id="productImage" name="product_image" accept="image/*" style="padding: 8px;">
+                        <div class="help-text">
+                            💡 <strong>Optional:</strong> Upload a product image to help AI find influencers who create similar content
+                        </div>
+                        <div id="imagePreview" style="margin-top: 12px; display: none;">
+                            <img id="previewImg" src="" alt="Preview" style="max-width: 200px; max-height: 200px; border-radius: 8px; border: 2px solid #00d4ff; box-shadow: 0 4px 12px rgba(0, 212, 255, 0.2);">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="industry">Industry/Category <span class="required-indicator">*</span></label>
                         <select id="industry" name="industry" required>
                             <option value="">-- Select Industry (Required) --</option>
                             <option value="Education">Education</option>
@@ -721,13 +1266,12 @@
                             <option value="Digital Products">Digital Products</option>
                             <option value="Travel">Travel</option>
                             <option value="Food">Food</option>
-                            <option value="Property/Real Estate">Property/Real Estate (10 influencers in CSV)</option>
+                            <option value="Property/Real Estate">Property/Real Estate</option>
                         </select>
-                        <small style="color: #666; display: block; margin-top: 5px;">
-                            <strong>⚠️ Important:</strong> Selecting an industry will show <strong>ONLY</strong> influencers from that industry.<br>
-                            💡 Example: Select "Property" → Shows ONLY Property influencers. Select "Food" → Shows ONLY Food influencers.<br>
-                            📋 Available: Education, Software Products, Technology Creators, Digital Products, Travel, Food, Property/Real Estate
-                        </small>
+                        <div class="help-text">
+                            <strong>⚠️ Important:</strong> Selecting an industry filters results to show <strong>ONLY</strong> influencers from that industry.<br>
+                            💡 <strong>Tip:</strong> Leave empty to search across all industries for broader results.
+                        </div>
                     </div>
                     
                     <div class="form-group">
@@ -799,52 +1343,56 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="platforms">Social Media Platforms (Select Platforms You Want Influencers From)</label>
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 12px; padding: 8px; border-radius: 10px; background: #f8fafc;">
-                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
-                                <input type="checkbox" name="platforms" value="Instagram" style="margin-right: 8px; width: auto;">
-                                📷 Instagram
+                        <label for="platforms">Social Media Platforms</label>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 12px; padding: 12px; border-radius: 10px; background: #f8fafc; border: 2px solid #e5e7eb;">
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal; padding: 8px; border-radius: 6px; transition: background 0.2s;">
+                                <input type="checkbox" name="platforms" value="Instagram" style="margin-right: 8px; width: auto; cursor: pointer;">
+                                <span>📷 Instagram</span>
                             </label>
-                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
-                                <input type="checkbox" name="platforms" value="Twitter" style="margin-right: 8px; width: auto;">
-                                🐦 Twitter/X
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal; padding: 8px; border-radius: 6px; transition: background 0.2s;">
+                                <input type="checkbox" name="platforms" value="Twitter" style="margin-right: 8px; width: auto; cursor: pointer;">
+                                <span>🐦 Twitter/X</span>
                             </label>
-                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
-                                <input type="checkbox" name="platforms" value="LinkedIn" style="margin-right: 8px; width: auto;">
-                                💼 LinkedIn
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal; padding: 8px; border-radius: 6px; transition: background 0.2s;">
+                                <input type="checkbox" name="platforms" value="LinkedIn" style="margin-right: 8px; width: auto; cursor: pointer;">
+                                <span>💼 LinkedIn</span>
                             </label>
-                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
-                                <input type="checkbox" name="platforms" value="YouTube" style="margin-right: 8px; width: auto;">
-                                ▶️ YouTube
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal; padding: 8px; border-radius: 6px; transition: background 0.2s;">
+                                <input type="checkbox" name="platforms" value="YouTube" style="margin-right: 8px; width: auto; cursor: pointer;">
+                                <span>▶️ YouTube</span>
                             </label>
-                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
-                                <input type="checkbox" name="platforms" value="Facebook" style="margin-right: 8px; width: auto;">
-                                👥 Facebook
+                            <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal; padding: 8px; border-radius: 6px; transition: background 0.2s;">
+                                <input type="checkbox" name="platforms" value="Facebook" style="margin-right: 8px; width: auto; cursor: pointer;">
+                                <span>👥 Facebook</span>
                             </label>
                         </div>
-                        <small style="color: #666; display: block; margin-top: 5px;">💡 Select one or more platforms. Only influencers active on selected platforms will be shown.</small>
+                        <div class="help-text">
+                            <strong>💡 How it works:</strong> Select specific platforms to see <strong>only handles for those platforms</strong> in results. Leave empty to see all platforms.
+                        </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="minFollowers">Min Followers</label>
+                        <label for="minFollowers">Minimum Followers</label>
                         <select id="minFollowers" name="min_followers">
                             <option value="">No Minimum</option>
-                            <option value="1000">1K+ Followers</option>
+                            <option value="1000">1K+ Followers (Micro)</option>
                             <option value="5000">5K+ Followers</option>
-                            <option value="10000">10K+ Followers</option>
+                            <option value="10000">10K+ Followers (Nano)</option>
                             <option value="25000">25K+ Followers</option>
-                            <option value="50000">50K+ Followers</option>
-                            <option value="100000">100K+ Followers</option>
+                            <option value="50000">50K+ Followers (Micro)</option>
+                            <option value="100000">100K+ Followers (Mid-tier)</option>
                             <option value="250000">250K+ Followers</option>
                             <option value="500000">500K+ Followers</option>
-                            <option value="1000000">1M+ Followers</option>
+                            <option value="1000000">1M+ Followers (Macro)</option>
                             <option value="2500000">2.5M+ Followers</option>
                             <option value="5000000">5M+ Followers</option>
-                            <option value="10000000">10M+ Followers</option>
+                            <option value="10000000">10M+ Followers (Mega)</option>
                             <option value="50000000">50M+ Followers</option>
                             <option value="100000000">100M+ Followers</option>
                         </select>
-                        <small style="color: #666; display: block; margin-top: 5px;">💡 K = Thousands, M = Millions</small>
+                        <div class="help-text">
+                            💡 <strong>Tip:</strong> K = Thousands, M = Millions. Leave empty to see all follower ranges
+                        </div>
                     </div>
                     
                     <div class="form-group">
@@ -980,19 +1528,36 @@
                     
                     <div class="form-group">
                         <label for="limit">Number of Recommendations</label>
-                        <input type="number" id="limit" name="limit" value="5" min="1" max="20">
+                        <input type="number" id="limit" name="limit" value="5" min="1" max="20" style="padding: 14px 16px;">
+                        <div class="help-text">
+                            💡 <strong>Range:</strong> 1-20 recommendations. More recommendations may take longer to process.
+                        </div>
                     </div>
                     
-                    <button type="submit" class="btn">🚀 Get NOVA Recommendations</button>
+                    <div class="form-actions">
+                        <button type="submit" class="btn">🚀 Get AI Recommendations</button>
+                        <button type="button" class="btn-secondary" onclick="clearForm()">🗑️ Clear Form</button>
+                    </div>
                 </form>
             </div>
             
             <div class="results-panel">
                 <h2>✨ Recommendations</h2>
                 <div id="results">
-                    <div class="loading">
-                        <p>👆 Set your requirements and click "Get NOVA Recommendations"</p>
-                        <p>✨ Profiles are analyzed with NOVA including hashtags and views!</p>
+                    <div style="text-align: center; padding: 60px 20px; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 16px; border: 2px dashed #00d4ff;">
+                        <div style="font-size: 64px; margin-bottom: 20px;">✨</div>
+                        <h3 style="color: #1a1a3e; margin-bottom: 12px; font-size: 24px;">Ready to Find Influencers?</h3>
+                        <p style="color: #666; font-size: 16px; margin-bottom: 8px;">👆 Fill out the form on the left and click "Get AI Recommendations"</p>
+                        <p style="color: #666; font-size: 14px;">✨ Our AI will analyze profiles including hashtags, views, and engagement metrics!</p>
+                        <div style="margin-top: 30px; padding: 20px; background: white; border-radius: 12px; max-width: 500px; margin-left: auto; margin-right: auto;">
+                            <h4 style="color: #0369a1; margin-bottom: 12px; font-size: 16px;">💡 Quick Start:</h4>
+                            <ul style="text-align: left; color: #1a1a3e; line-height: 1.8; font-size: 14px;">
+                                <li>Select an <strong>Industry</strong> (required)</li>
+                                <li>Choose <strong>Platforms</strong> to filter handles</li>
+                                <li>Set <strong>Location</strong> and <strong>Followers</strong> range</li>
+                                <li>Click <strong>"Get AI Recommendations"</strong></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1076,9 +1641,89 @@
             }
         });
         
+        // Clear form function
+        function clearForm() {
+            const form = document.getElementById('filterForm');
+            if (form) {
+                form.reset();
+                // Clear image preview
+                const imagePreview = document.getElementById('imagePreview');
+                const previewImg = document.getElementById('previewImg');
+                if (imagePreview) imagePreview.style.display = 'none';
+                if (previewImg) previewImg.src = '';
+                // Clear results
+                const resultsDiv = document.getElementById('results');
+                if (resultsDiv) resultsDiv.innerHTML = '';
+                // Show success message
+                showMessage('Form cleared successfully!', 'success');
+            }
+        }
+        
+        // Show message function
+        function showMessage(message, type = 'info') {
+            const messageDiv = document.createElement('div');
+            messageDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 16px 24px;
+                border-radius: 12px;
+                color: white;
+                font-weight: 600;
+                z-index: 10000;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+                animation: slideIn 0.3s ease;
+                max-width: 400px;
+            `;
+            
+            if (type === 'success') {
+                messageDiv.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+            } else if (type === 'error') {
+                messageDiv.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
+            } else {
+                messageDiv.style.background = 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)';
+            }
+            
+            messageDiv.textContent = message;
+            document.body.appendChild(messageDiv);
+            
+            setTimeout(() => {
+                messageDiv.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => messageDiv.remove(), 300);
+            }, 3000);
+        }
+        
+        // Add CSS animations for messages
+        if (!document.getElementById('message-animations')) {
+            const style = document.createElement('style');
+            style.id = 'message-animations';
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(400px); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(400px); opacity: 0; }
+                }
+                label:hover {
+                    background: #f0f9ff !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
         document.getElementById('filterForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             e.stopPropagation();
+            
+            // Form validation
+            const industry = document.getElementById('industry').value;
+            if (!industry) {
+                showMessage('Please select an industry to continue', 'error');
+                document.getElementById('industry').focus();
+                return;
+            }
             
             console.log('Form submitted');
             
@@ -1151,12 +1796,14 @@
             // Show loading state - SIMPLE, NO CONSTANT RELOADING
             resultsDiv.innerHTML = `<div class="loading">
                 <div style="text-align: center; padding: 40px 20px;">
-                    <div style="width: 50px; height: 50px; border: 4px solid #e0e0e0; border-top: 4px solid #00d4ff; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
-                    <h3 style="color: #1a1a3e; margin-bottom: 10px;">🤖 ChatGPT is finding influencers...</h3>
-                    <p style="color: #666; margin-bottom: 5px; font-weight: 600;">Analyzing your requirements and searching for matching influencers</p>
-                    <p style="color: #999; font-size: 0.9em; margin-top: 10px;">This may take 30-60 seconds. Please wait...</p>
-                    <p style="color: #999; font-size: 0.85em; margin-top: 10px;">📋 Your requirements are still visible above</p>
-                    <button onclick="window.stopLoading()" style="margin-top: 20px; padding: 12px 24px; background: #ff4444; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 16px; box-shadow: 0 4px 12px rgba(255, 68, 68, 0.3);">⏹️ Stop Loading</button>
+                    <div style="width: 60px; height: 60px; border: 5px solid #e0f2fe; border-top: 5px solid #00d4ff; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+                    <h3 style="color: #1a1a3e; margin-bottom: 12px; font-size: 22px;">🤖 AI is Finding Perfect Influencers...</h3>
+                    <p style="color: #666; margin-bottom: 8px; font-weight: 600; font-size: 16px;">Analyzing your requirements and searching our database</p>
+                    <div style="background: #f0f9ff; border-left: 4px solid #00d4ff; padding: 12px; border-radius: 8px; margin: 15px auto; max-width: 500px;">
+                        <p style="color: #0369a1; font-size: 14px; margin: 0;">⏱️ This usually takes 30-60 seconds</p>
+                        <p style="color: #0369a1; font-size: 14px; margin: 5px 0 0 0;">📋 Your form is still visible above - you can adjust it anytime</p>
+                    </div>
+                    <button onclick="window.stopLoading()" style="margin-top: 20px; padding: 12px 24px; background: #ff4444; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 16px; box-shadow: 0 4px 12px rgba(255, 68, 68, 0.3); transition: all 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">⏹️ Cancel Search</button>
                 </div>
             </div>`;
             
@@ -1217,11 +1864,17 @@
                 
                 // Check if we got an error response (even with 200 status)
                 if (!data.success && data.error) {
+                    showMessage(`⚠️ ${data.error}`, 'error');
                     resultsDiv.innerHTML = `
-                        <div class="error" style="background: #fee; border-left: 4px solid #f44; padding: 20px; border-radius: 8px;">
-                            <h3>⚠️ ${escapeHtml(data.error)}</h3>
-                            ${data.suggestion ? `<p style="margin-top: 10px; color: #666;">💡 ${escapeHtml(data.suggestion)}</p>` : ''}
-                            <p style="margin-top: 15px; font-weight: 600; color: #d97706;"><strong>📋 Your requirements form is still visible above - adjust and try again!</strong></p>
+                        <div class="error" style="background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); border-left: 4px solid #ef4444; padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.1);">
+                            <h3 style="color: #dc2626; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                <span>⚠️</span>
+                                <span>${escapeHtml(data.error)}</span>
+                            </h3>
+                            ${data.suggestion ? `<div style="background: #fff; padding: 12px; border-radius: 8px; margin: 12px 0; border-left: 3px solid #f59e0b;"><p style="color: #92400e; margin: 0;">💡 ${escapeHtml(data.suggestion)}</p></div>` : ''}
+                            <div style="background: #fef3c7; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #fbbf24;">
+                                <p style="margin: 0; font-weight: 600; color: #92400e;">📋 Your requirements form is still visible above - adjust and try again!</p>
+                            </div>
                         </div>
                     `;
                     return;
@@ -1231,6 +1884,11 @@
                     // Store recommendations for profile viewing
                     currentRecommendations = data.recommendations || [];
                     console.log('Stored recommendations:', currentRecommendations.length);
+                    
+                    // Show success message
+                    if (currentRecommendations.length > 0) {
+                        showMessage(`✅ Found ${currentRecommendations.length} influencer${currentRecommendations.length > 1 ? 's' : ''} matching your criteria!`, 'success');
+                    }
                     
                     // CRITICAL: Keep form visible - NEVER remove it
                     if (filterForm) {
@@ -1412,13 +2070,64 @@
                         
                         <div style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e5e7eb;">
                             <h3 style="color: #1a1a3e; margin-bottom: 15px;">🔗 Social Media Handles & Contact</h3>
-                            ${influencerData.instagram_handle ? `<div class="detail-item"><strong>📷 Instagram:</strong> <a href="https://instagram.com/${escapeHtml(influencerData.instagram_handle)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">@${escapeHtml(influencerData.instagram_handle)}</a></div>` : '<div class="detail-item"><strong>📷 Instagram:</strong> <span style="color: #999;">N/A</span></div>'}
-                            ${influencerData.twitter_handle ? `<div class="detail-item"><strong>🐦 Twitter/X:</strong> <a href="https://twitter.com/${escapeHtml(influencerData.twitter_handle)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">@${escapeHtml(influencerData.twitter_handle)}</a></div>` : '<div class="detail-item"><strong>🐦 Twitter/X:</strong> <span style="color: #999;">N/A</span></div>'}
-                            ${influencerData.linkedin_handle ? `<div class="detail-item"><strong>💼 LinkedIn:</strong> <a href="https://linkedin.com/in/${escapeHtml(influencerData.linkedin_handle)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">${escapeHtml(influencerData.linkedin_handle)}</a></div>` : '<div class="detail-item"><strong>💼 LinkedIn:</strong> <span style="color: #999;">N/A</span></div>'}
-                            ${influencerData.youtube_handle ? `<div class="detail-item"><strong>▶️ YouTube:</strong> <a href="https://youtube.com/${escapeHtml(influencerData.youtube_handle)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">${escapeHtml(influencerData.youtube_handle)}</a></div>` : '<div class="detail-item"><strong>▶️ YouTube:</strong> <span style="color: #999;">N/A</span></div>'}
-                            ${influencerData.facebook_handle ? `<div class="detail-item"><strong>👥 Facebook:</strong> <a href="https://facebook.com/${escapeHtml(influencerData.facebook_handle)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">${escapeHtml(influencerData.facebook_handle)}</a></div>` : '<div class="detail-item"><strong>👥 Facebook:</strong> <span style="color: #999;">N/A</span></div>'}
-                            ${influencerData.contact_link ? `<div class="detail-item" style="margin-top: 10px;"><strong>🔗 Contact Link:</strong> <a href="${escapeHtml(influencerData.contact_link)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">${escapeHtml(influencerData.contact_link)}</a></div>` : ''}
-                            ${influencerData.source_url ? `<div class="detail-item"><strong>🌐 Source URL:</strong> <a href="${escapeHtml(influencerData.source_url)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">${escapeHtml(influencerData.source_url)}</a></div>` : ''}
+                            ${(() => {
+                                const selectedPlatforms = influencerData.selected_platforms || [];
+                                const platformsLower = selectedPlatforms.map(p => p.toLowerCase());
+                                const hasSelectedPlatforms = selectedPlatforms.length > 0;
+                                
+                                // Helper function to check if platform is selected
+                                const isPlatformSelected = (platformName) => {
+                                    if (!hasSelectedPlatforms) return true; // Show all if none selected
+                                    return platformsLower.some(p => p.includes(platformName.toLowerCase()));
+                                };
+                                
+                                let handlesHTML = '';
+                                
+                                // Only show Instagram if selected or no platforms selected
+                                if (isPlatformSelected('instagram')) {
+                                    handlesHTML += influencerData.instagram_handle 
+                                        ? `<div class="detail-item"><strong>📷 Instagram:</strong> <a href="https://instagram.com/${escapeHtml(influencerData.instagram_handle)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">@${escapeHtml(influencerData.instagram_handle)}</a></div>`
+                                        : '<div class="detail-item"><strong>📷 Instagram:</strong> <span style="color: #999;">N/A</span></div>';
+                                }
+                                
+                                // Only show Twitter/X if selected or no platforms selected
+                                if (isPlatformSelected('twitter') || isPlatformSelected('x')) {
+                                    handlesHTML += influencerData.twitter_handle 
+                                        ? `<div class="detail-item"><strong>🐦 Twitter/X:</strong> <a href="https://twitter.com/${escapeHtml(influencerData.twitter_handle)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">@${escapeHtml(influencerData.twitter_handle)}</a></div>`
+                                        : '<div class="detail-item"><strong>🐦 Twitter/X:</strong> <span style="color: #999;">N/A</span></div>';
+                                }
+                                
+                                // Only show LinkedIn if selected or no platforms selected
+                                if (isPlatformSelected('linkedin')) {
+                                    handlesHTML += influencerData.linkedin_handle 
+                                        ? `<div class="detail-item"><strong>💼 LinkedIn:</strong> <a href="https://linkedin.com/in/${escapeHtml(influencerData.linkedin_handle)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">${escapeHtml(influencerData.linkedin_handle)}</a></div>`
+                                        : '<div class="detail-item"><strong>💼 LinkedIn:</strong> <span style="color: #999;">N/A</span></div>';
+                                }
+                                
+                                // Only show YouTube if selected or no platforms selected
+                                if (isPlatformSelected('youtube')) {
+                                    handlesHTML += influencerData.youtube_handle 
+                                        ? `<div class="detail-item"><strong>▶️ YouTube:</strong> <a href="https://youtube.com/${escapeHtml(influencerData.youtube_handle)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">${escapeHtml(influencerData.youtube_handle)}</a></div>`
+                                        : '<div class="detail-item"><strong>▶️ YouTube:</strong> <span style="color: #999;">N/A</span></div>';
+                                }
+                                
+                                // Only show Facebook if selected or no platforms selected
+                                if (isPlatformSelected('facebook')) {
+                                    handlesHTML += influencerData.facebook_handle 
+                                        ? `<div class="detail-item"><strong>👥 Facebook:</strong> <a href="https://facebook.com/${escapeHtml(influencerData.facebook_handle)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">${escapeHtml(influencerData.facebook_handle)}</a></div>`
+                                        : '<div class="detail-item"><strong>👥 Facebook:</strong> <span style="color: #999;">N/A</span></div>';
+                                }
+                                
+                                // Always show contact link and source URL
+                                if (influencerData.contact_link) {
+                                    handlesHTML += `<div class="detail-item" style="margin-top: 10px;"><strong>🔗 Contact Link:</strong> <a href="${escapeHtml(influencerData.contact_link)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">${escapeHtml(influencerData.contact_link)}</a></div>`;
+                                }
+                                if (influencerData.source_url) {
+                                    handlesHTML += `<div class="detail-item"><strong>🌐 Source URL:</strong> <a href="${escapeHtml(influencerData.source_url)}" target="_blank" style="color: #00d4ff; text-decoration: underline;">${escapeHtml(influencerData.source_url)}</a></div>`;
+                                }
+                                
+                                return handlesHTML;
+                            })()}
                         </div>
                         
                         <div style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e5e7eb;">
@@ -1816,24 +2525,38 @@
             // Helper function to get platform icons
             function getPlatformIcons(inf) {
                 const platforms = [];
-                if (inf.instagram_handle || (inf.platform && inf.platform.toLowerCase().includes('instagram'))) {
+                const selectedPlatforms = inf.selected_platforms || [];
+                const hasSelectedPlatforms = selectedPlatforms.length > 0;
+                const platformsLower = selectedPlatforms.map(p => p.toLowerCase());
+                
+                // Helper to check if platform is selected
+                const isPlatformSelected = (platformName) => {
+                    if (!hasSelectedPlatforms) return true; // Show all if none selected
+                    return platformsLower.some(p => p.includes(platformName.toLowerCase()));
+                };
+                
+                // Only add platforms that are selected (or all if none selected)
+                if (isPlatformSelected('instagram') && (inf.instagram_handle || (inf.platform && inf.platform.toLowerCase().includes('instagram')))) {
                     platforms.push('📷 Instagram');
                 }
-                if (inf.twitter_handle || (inf.platform && inf.platform.toLowerCase().includes('twitter'))) {
+                if ((isPlatformSelected('twitter') || isPlatformSelected('x')) && (inf.twitter_handle || (inf.platform && inf.platform.toLowerCase().includes('twitter')))) {
                     platforms.push('🐦 Twitter/X');
                 }
-                if (inf.linkedin_handle || (inf.platform && inf.platform.toLowerCase().includes('linkedin'))) {
+                if (isPlatformSelected('linkedin') && (inf.linkedin_handle || (inf.platform && inf.platform.toLowerCase().includes('linkedin')))) {
                     platforms.push('💼 LinkedIn');
                 }
-                if (inf.youtube_handle || (inf.platform && inf.platform.toLowerCase().includes('youtube'))) {
+                if (isPlatformSelected('youtube') && (inf.youtube_handle || (inf.platform && inf.platform.toLowerCase().includes('youtube')))) {
                     platforms.push('▶️ YouTube');
                 }
-                if (inf.facebook_handle || (inf.platform && inf.platform.toLowerCase().includes('facebook'))) {
+                if (isPlatformSelected('facebook') && (inf.facebook_handle || (inf.platform && inf.platform.toLowerCase().includes('facebook')))) {
                     platforms.push('👥 Facebook');
                 }
-                if (platforms.length === 0 && inf.platform) {
+                
+                // If no platforms selected, show all available
+                if (!hasSelectedPlatforms && platforms.length === 0 && inf.platform) {
                     platforms.push(inf.platform);
                 }
+                
                 return platforms.length > 0 ? platforms.join(' • ') : 'Multiple Platforms';
             }
             

@@ -274,9 +274,35 @@ def get_recommendations():
         
         # Store selected platforms in each influencer for frontend display
         selected_platforms = filters.get('platforms', [])
-        for inf in influencers:
-            if selected_platforms:
+        
+        # Filter out handles for platforms that weren't selected
+        if selected_platforms:
+            platforms_lower = [p.lower() for p in selected_platforms] if isinstance(selected_platforms, list) else [selected_platforms.lower()]
+            
+            for inf in influencers:
                 inf['selected_platforms'] = selected_platforms
+                
+                # Remove handles for platforms that weren't selected
+                has_instagram = any('instagram' in p for p in platforms_lower)
+                has_twitter = any('twitter' in p or 'x' in p for p in platforms_lower)
+                has_linkedin = any('linkedin' in p for p in platforms_lower)
+                has_youtube = any('youtube' in p for p in platforms_lower)
+                has_facebook = any('facebook' in p for p in platforms_lower)
+                
+                if not has_instagram:
+                    inf['instagram_handle'] = None
+                if not has_twitter:
+                    inf['twitter_handle'] = None
+                if not has_linkedin:
+                    inf['linkedin_handle'] = None
+                if not has_youtube:
+                    inf['youtube_handle'] = None
+                if not has_facebook:
+                    inf['facebook_handle'] = None
+        else:
+            # If no platforms selected, keep all handles
+            for inf in influencers:
+                inf['selected_platforms'] = []
         
         # Extract filter values for use throughout the function
         location = filters.get('location', '').strip() if filters.get('location') else ''

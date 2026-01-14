@@ -1,0 +1,10 @@
+# Example domains file
+# Add one domain per line (without http:// or https://)
+# Lines starting with # are ignored
+
+# techcrunch.com
+# forbes.com
+# mashable.com
+# theverge.com
+
+
